@@ -1,0 +1,226 @@
+/* ===== MatteFysikkLab – Mobil / responsivt CSS ===== */
+/* Lastes etter style.css. Gir full støtte for smarttelefon-nettleser. */
+
+/* ============================================================
+   FELLES: touch-vennlige justeringer uansett skjermstørrelse
+   ============================================================ */
+
+/* Unngå utilsiktet tekst-skalering på iOS */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Sikre at touch-interaksjon på canvas ikke stjeler scroll */
+canvas { touch-action: none; }
+
+/* ============================================================
+   BREAKPOINT: Nettbrett og store telefoner  (≤ 900px)
+   ============================================================ */
+@media (max-width: 900px) {
+
+  /* ------ Header ------ */
+  header {
+    height: auto;
+    min-height: 52px;
+    flex-wrap: wrap;
+    gap: 7px;
+    padding: 7px 12px;
+  }
+  .logo       { font-size: 15px; }
+  .logo-sym   { font-size: 18px; }
+  #save-btn,
+  #load-btn   { padding: 6px 10px; font-size: 12px; }
+
+  /* ------ Hoved-layout ------ */
+  /* Tillat scrolling – ikke lås hele siden til 100vh */
+  body { overflow: auto; }
+  main { height: auto; min-height: calc(100dvh - 52px); }
+
+  /* ------ Kalkulus: panel + graf stables vertikalt ------ */
+  #tab-calculus.active {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(55vw, 420px);
+    overflow-y: auto;
+    height: auto;
+  }
+  .panel {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    overflow-y: visible;
+    max-height: none;
+  }
+  .graph-area  { min-height: 55vw; }
+  #calc-canvas { min-height: 55vw; cursor: crosshair; }
+
+  /* ------ Fysikk: sim-sider (panel + canvas) stables ------ */
+  .phys-page.lay-sim.active {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(55vw, 360px);
+    overflow-y: auto;
+    height: auto;
+  }
+  .sim-col { min-height: 55vw; }
+  .sim-col.rows-track { grid-template-rows: 110px 1fr; }
+
+  .force-right {
+    grid-template-rows: 1fr 130px;
+    min-height: 55vw;
+    padding: 8px;
+  }
+
+  /* ------ Trigonometri ------ */
+  .trig-grid {
+    grid-template-columns: 1fr;
+    padding: 10px;
+    gap: 10px;
+  }
+  #circle-card    { grid-row: auto; }
+  #circle-canvas  { max-height: 80vw; }
+  #wave-canvas    { height: 220px; }
+  #abcd-canvas    { height: 220px; }
+  .values-grid    { grid-template-columns: repeat(2, 1fr); }
+  .abcd-grid      { grid-template-columns: 1fr; }
+
+  /* ------ Lineær algebra ------ */
+  .la-grid          { grid-template-columns: 1fr; padding: 10px; }
+  #la-vec-canvas    { height: 260px; }
+  #la-trans-canvas  { height: 280px; }
+  #la-sys-canvas    { height: 200px; }
+
+  /* ------ Kort-visning (fysikk metode) ------ */
+  .cards-grid { grid-template-columns: 1fr; padding: 10px; }
+
+  /* ------ Under-faner (fysikk) ------ */
+  .subtabs { gap: 5px; padding: 7px 10px; }
+  .subtab  { padding: 5px 10px; font-size: 12px; }
+
+  /* ------ Skjema-elementer: 16px forhindrer iOS-zoom ------ */
+  input[type="number"],
+  input[type="text"],
+  select,
+  textarea,
+  .fn-input,
+  .calc-input {
+    font-size: 16px !important;
+  }
+
+  /* ------ Touch-mål: minimum 44 × 44 px (Apple HIG) ------ */
+  .btn     { min-height: 40px; padding: 8px 14px; }
+  .toggle  { min-height: 40px; }
+  .subtab  { min-height: 36px; }
+  input[type="checkbox"],
+  input[type="range"] { min-height: 28px; }
+
+  /* ------ Matriser ------ */
+  .mat-editors { flex-direction: column; gap: 14px; }
+
+  /* ------ La-ops knapper: litt mer kompakte ------ */
+  .la-ops     { gap: 5px; }
+  .la-ops .btn { padding: 6px 10px; font-size: 12px; min-height: 36px; }
+}
+
+/* ============================================================
+   BREAKPOINT: Smal telefon (≤ 520px)
+   ============================================================ */
+@media (max-width: 520px) {
+
+  /* ------ Header ------ */
+  header {
+    gap: 5px;
+    padding: 6px 10px;
+  }
+  .logo      { font-size: 13px; }
+  .logo-sym  { font-size: 16px; }
+  .nav-btn   { padding: 6px 10px; font-size: 13px; gap: 6px; }
+  .nav-menu  { min-width: 230px; left: 0; }
+  #save-btn,
+  #load-btn  { padding: 5px 8px; font-size: 11px; }
+
+  /* ------ Fysikk under-faner: scroll horisontalt ------ */
+  .subtabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 9px;
+  }
+  .subtabs::-webkit-scrollbar { display: none; }
+  .subtab { white-space: nowrap; flex: none; }
+
+  /* ------ Canvas ------ */
+  .graph-area,
+  #calc-canvas    { min-height: 65vw; }
+  #circle-canvas  { max-height: 88vw; }
+  #wave-canvas    { height: 190px; }
+  #abcd-canvas    { height: 190px; }
+  #la-vec-canvas   { height: 220px; }
+  #la-trans-canvas { height: 240px; }
+  #la-sys-canvas   { height: 170px; }
+
+  /* ------ Sliders og lesbar tekst ------ */
+  .slider-row  { gap: 2px 5px; margin-bottom: 9px; }
+  .sl-name     { font-size: 12px; }
+  .group-title { font-size: 10px; }
+
+  /* ------ Kompakte matrise-inputs ------ */
+  .num-s { width: 52px !important; }
+  .mat-edit { gap: 4px; }
+
+  /* ------ Verdier-grid: 2 kolonner på smal skjerm ------ */
+  .values-grid { grid-template-columns: repeat(2, 1fr); gap: 7px; }
+
+  /* ------ Knapper: full bredde der det gir mening ------ */
+  .group.row { flex-wrap: wrap; }
+  .group.row .btn { flex: 1; min-width: 100px; }
+
+  /* ------ Leselinje for kalkulator-svar ------ */
+  .calc-res { min-width: 120px; font-size: 12px; }
+
+  /* ------ Hjelp-seksjonen: litt større linjehøyde ------ */
+  .help ul { font-size: 12px; line-height: 1.8; }
+}
+
+/* ============================================================
+   BREAKPOINT: Veldig smal (≤ 360px – eldre Android)
+   ============================================================ */
+@media (max-width: 360px) {
+  .logo     { display: none; }        /* Skjul logo, behold nav-btn */
+  .logo-sym { display: inline; }
+
+  .nav-btn  { font-size: 12px; }
+
+  #save-btn,
+  #load-btn { font-size: 10px; padding: 4px 6px; }
+
+  .values-grid { grid-template-columns: 1fr 1fr; gap: 5px; }
+  .val span    { font-size: 13px; }
+}
+
+/* ============================================================
+   Landscape-orientering på telefon
+   ============================================================ */
+@media (max-width: 900px) and (orientation: landscape) {
+  /* I landscape vil vi ikke at canvas-en skal spise alt */
+  .graph-area,
+  #calc-canvas { min-height: 40vw; }
+
+  #circle-canvas { max-height: 55vw; }
+
+  /* Sim-sider: panel til venstre igjen, men smalere */
+  .phys-page.lay-sim.active,
+  #tab-calculus.active {
+    grid-template-columns: 280px 1fr;
+    grid-template-rows: 1fr;
+    height: calc(100dvh - 52px);
+    overflow-y: hidden;
+  }
+  .panel {
+    overflow-y: auto;
+    border-right: 1px solid var(--border);
+    border-bottom: none;
+  }
+  .graph-area,
+  .sim-col,
+  .force-right { min-height: unset; }
+}
