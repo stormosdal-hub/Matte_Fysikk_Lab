@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MatteFysikkLab</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>&#x2211;</text></svg>">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="logo"><span class="logo-sym">&Sigma;</span> MatteFysikkLab</div>
+  <div class="nav-dd" id="nav-dd">
+    <button class="nav-btn" id="nav-btn" aria-haspopup="true" aria-expanded="false">
+      <span class="nav-ico" id="nav-ico">&int;</span>
+      <span id="nav-current">Kalkulus</span>
+      <span class="caret">&#9662;</span>
+    </button>
+    <div class="nav-menu" id="nav-menu" hidden>
+      <button class="nav-item active" data-tab="calculus">
+        <span class="ico">&int;</span>
+        <span class="nav-item-text">Kalkulus<small>Plott og analyser funksjoner</small></span>
+      </button>
+      <button class="nav-item" data-tab="trig">
+        <span class="ico">&theta;</span>
+        <span class="nav-item-text">Trigonometri<small>Enhetssirkel, b&oslash;lger og kalkulator</small></span>
+      </button>
+      <button class="nav-item" data-tab="linalg">
+        <span class="ico">&lambda;</span>
+        <span class="nav-item-text">Line&aelig;r algebra<small>Vektorer, matriser, transformasjoner</small></span>
+      </button>
+      <button class="nav-item" data-tab="physics">
+        <span class="ico">&#9883;</span>
+        <span class="nav-item-text">Fysikk<small>Metode, kinematikk, krefter, energi, termo</small></span>
+      </button>
+    </div>
+  </div>
+  <div class="spacer"></div>
+  <button class="btn" id="save-btn" title="Lagre alle innstillinger og oppsett i nettleseren">&#128190; Lagre</button>
+  <button class="btn" id="load-btn" title="Last inn sist lagrede &oslash;kt">&#128194; Last inn</button>
+</header>
+
+<main>
+
+<!-- ============ KALKULUS ============ -->
+<section class="tab-page" id="tab-calculus">
+  <aside class="panel">
+    <div class="group">
+      <div class="group-title">Funksjoner</div>
+      <div id="fn-list"></div>
+      <button class="btn" id="add-fn">+ Legg til funksjon</button>
+    </div>
+
+    <div class="group" id="param-group" hidden>
+      <div class="group-title">Parametere</div>
+      <div id="param-list"></div>
+    </div>
+
+    <div class="group">
+      <div class="group-title">Verkt&oslash;y <span class="muted">&mdash; bruker</span> <span id="active-fn-label" class="mono"></span></div>
+
+      <button class="toggle" id="toggle-tangent">Tangentlinje</button>
+      <div id="tangent-controls" class="tool-box" hidden>
+        <label class="inline">x = <input type="number" id="tangent-x" step="0.1" value="1"></label>
+        <div class="hint">Dra den vertikale linjen i grafen for &aring; flytte tangentpunktet.</div>
+        <div class="info" id="tangent-info"></div>
+      </div>
+
+      <button class="toggle" id="toggle-integral">Bestemt integral</button>
+      <div id="integral-controls" class="tool-box" hidden>
+        <label class="inline">a = <input type="number" id="int-a" step="0.1" value="-2"></label>
+        <label class="inline">b = <input type="number" id="int-b" step="0.1" value="2"></label>
+        <div class="hint">Dra grensene direkte i grafen.</div>
+        <div class="info" id="int-result"></div>
+      </div>
+
+      <button class="btn" id="analyze-btn">Finn null-, ekstremal- og vendepunkter</button>
+      <div id="analysis-out" class="info"></div>
+    </div>
+
+    <details class="group help">
+      <summary>Hjelp og syntaks</summary>
+      <ul>
+        <li>Operatorer: <code>+ &minus; * / ^</code> og parenteser. Implisitt ganging fungerer: <code>2x</code>, <code>3sin(x)</code>, <code>(x+1)(x-2)</code></li>
+        <li><code>|x|</code> gir absoluttverdi</li>
+        <li>Funksjoner: <code>sin cos tan</code>, <code>asin acos atan</code>, <code>sec csc cot</code>, <code>sinh cosh tanh</code>, <code>sqrt cbrt</code>, <code>ln</code> (naturlig), <code>log</code> (10er-logaritme), <code>exp</code>, <code>abs</code>, <code>floor ceil round sign</code>, <code>min(a,b) max(a,b)</code></li>
+        <li>Konstanter: <code>pi</code> (&pi;), <code>e</code>, <code>tau</code></li>
+        <li>Bruk punktum som desimaltegn: <code>0.5</code></li>
+        <li>Andre bokstaver (<code>a</code>, <code>b</code>, <code>k</code> &hellip;) blir automatisk parametere med glidebrytere!</li>
+        <li>Eksempler: <code>a*x^2 + b*x + c</code> &middot; <code>sin(x)/x</code> &middot; <code>e^(-x^2/2)</code> &middot; <code>sqrt(abs(x))</code></li>
+        <li>Mus: dra for &aring; panorere, rull for &aring; zoome. <code>f&prime;</code>/<code>f&Prime;</code>-knappene viser deriverte (stiplet).</li>
+      </ul>
+    </details>
+  </aside>
+
+  <div class="graph-area">
+    <canvas id="calc-canvas"></canvas>
+    <div class="graph-btns">
+      <button id="calc-zoom-in" title="Zoom inn">+</button>
+      <button id="calc-zoom-out" title="Zoom ut">&minus;</button>
+      <button id="calc-home" title="Tilbakestill visning">&#8962;</button>
+    </div>
+    <div id="calc-coords" class="mono"></div>
+  </div>
+</section>
+
+<!-- ============ TRIGONOMETRI ============ -->
+<section class="tab-page" id="tab-trig">
+  <div class="trig-grid">
+
+    <div class="card" id="circle-card">
+      <h2>Enhetssirkelen</h2>
+      <canvas id="circle-canvas"></canvas>
+      <div class="slider-row">
+        <span class="sl-name">Vinkel &theta;</span><output id="theta-label">45&deg;</output>
+        <input type="range" id="theta-slider" min="0" max="360" step="0.25" value="45">
+      </div>
+      <div class="row">
+        <span class="muted">Enhet:</span>
+        <button class="btn-seg on" id="unit-deg">grader</button><button class="btn-seg" id="unit-rad">radianer</button>
+        <label class="chk"><input type="checkbox" id="snap-check"> L&aring;s til 15&deg;-steg</label>
+      </div>
+      <div class="row">
+        <button class="btn" id="anim-btn">&#9654; Animer</button>
+        <span class="muted">Fart</span>
+        <input type="range" id="anim-speed" min="0.1" max="3" step="0.05" value="0.8" style="flex:1">
+      </div>
+      <div class="hint">Dra det bl&aring; punktet p&aring; sirkelen for &aring; endre vinkelen.</div>
+    </div>
+
+    <div class="card" id="wave-card">
+      <h2>B&oslash;lgene &mdash; sin, cos og tan</h2>
+      <canvas id="wave-canvas"></canvas>
+      <div class="row">
+        <label class="chk c-sin"><input type="checkbox" id="show-sin" checked> sin &theta;</label>
+        <label class="chk c-cos"><input type="checkbox" id="show-cos" checked> cos &theta;</label>
+        <label class="chk c-tan"><input type="checkbox" id="show-tan" checked> tan &theta;</label>
+      </div>
+    </div>
+
+    <div class="card" id="value-card">
+      <h2>Verdier</h2>
+      <div class="values-grid">
+        <div class="val"><small>&theta; (grader)</small><span id="v-deg">&ndash;</span></div>
+        <div class="val"><small>&theta; (radianer)</small><span id="v-rad">&ndash;</span></div>
+        <div class="val c-sin"><small>sin &theta;</small><span id="v-sin">&ndash;</span></div>
+        <div class="val c-cos"><small>cos &theta;</small><span id="v-cos">&ndash;</span></div>
+        <div class="val c-tan"><small>tan &theta;</small><span id="v-tan">&ndash;</span></div>
+        <div class="val"><small>csc &theta; = 1/sin</small><span id="v-csc">&ndash;</span></div>
+        <div class="val"><small>sec &theta; = 1/cos</small><span id="v-sec">&ndash;</span></div>
+        <div class="val"><small>cot &theta; = 1/tan</small><span id="v-cot">&ndash;</span></div>
+      </div>
+    </div>
+
+    <div class="card full" id="trig-calc-card">
+      <h2>Kalkulator &mdash; formler og likninger med &theta;</h2>
+      <div class="hint">
+        Skriv uttrykk som bruker vinkelen <b>&theta;</b> (skriv <code>theta</code> eller <code>&theta;</code>) &mdash; verdiene
+        oppdateres direkte n&aring;r du endrer vinkelen over (dra punktet, bruk glidebryteren eller animer!).
+        Definer egne st&oslash;rrelser med <code>navn = uttrykk</code> (f.eks. <code>hyp = 5</code>) og bruk dem p&aring; senere linjer.
+        Skriv en likning med <code>=</code> mellom to uttrykk for &aring; teste om venstre og h&oslash;yre side er like
+        (f.eks. <code>sin(2theta) = 2sin(theta)cos(theta)</code>).
+      </div>
+      <div id="trig-calc-rows"></div>
+      <button class="btn" id="trig-calc-add">+ Legg til linje</button>
+    </div>
+
+    <div class="card full" id="abcd-card">
+      <h2>Utforsk y = A&middot;sin(Bx + C) + D</h2>
+      <div class="abcd-grid">
+        <canvas id="abcd-canvas"></canvas>
+        <div class="abcd-controls">
+          <div class="slider-row"><span class="sl-name">A &mdash; amplitude</span><output id="out-a">1.00</output>
+            <input type="range" id="sl-a" min="-3" max="3" step="0.05" value="1"></div>
+          <div class="slider-row"><span class="sl-name">B &mdash; frekvens</span><output id="out-b">1.00</output>
+            <input type="range" id="sl-b" min="-4" max="4" step="0.05" value="1"></div>
+          <div class="slider-row"><span class="sl-name">C &mdash; faseledd</span><output id="out-c">0.00</output>
+            <input type="range" id="sl-c" min="-6.3" max="6.3" step="0.05" value="0"></div>
+          <div class="slider-row"><span class="sl-name">D &mdash; vertikal forskyvning</span><output id="out-d">0.00</output>
+            <input type="range" id="sl-d" min="-3" max="3" step="0.05" value="0"></div>
+          <div class="info" id="abcd-readout"></div>
+          <div class="hint">Gr&aring; stiplet kurve = vanlig sin(x) som referanse. Dra/rull i grafen for &aring; panorere/zoome.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ LINEÆR ALGEBRA ============ -->
+<section class="tab-page" id="tab-linalg">
+  <div class="la-grid">
+
+    <div class="card" id="la-vec-card">
+      <h2>Vektorer i planet</h2>
+      <canvas id="la-vec-canvas"></canvas>
+      <div class="row">
+        <span class="vec-u mono">u = (</span><input type="number" class="num-s" id="la-ux" step="0.5" value="3"><span class="mono">,</span>
+        <input type="number" class="num-s" id="la-uy" step="0.5" value="1"><span class="mono">)</span>
+        <span class="vec-v mono" style="margin-left:14px">v = (</span><input type="number" class="num-s" id="la-vx" step="0.5" value="1"><span class="mono">,</span>
+        <input type="number" class="num-s" id="la-vy" step="0.5" value="2"><span class="mono">)</span>
+      </div>
+      <div class="row">
+        <label class="chk"><input type="checkbox" id="la-show-sum" checked> u + v</label>
+        <label class="chk"><input type="checkbox" id="la-show-diff"> u &minus; v</label>
+        <label class="chk"><input type="checkbox" id="la-show-proj"> proj<sub>v</sub>(u)</label>
+      </div>
+      <div class="info" id="la-vec-info"></div>
+      <div class="hint">Dra i vektorspissene! Lineærkombinasjoner, prikkprodukt, vinkel og projeksjon oppdateres direkte.</div>
+    </div>
+
+    <div class="card" id="la-trans-card">
+      <h2>Line&aelig;re transformasjoner &mdash; 2&times;2</h2>
+      <canvas id="la-trans-canvas"></canvas>
+      <div class="row">
+        <span class="mono">A =</span>
+        <span class="mat-wrap"><span class="mat-edit" style="grid-template-columns:repeat(2,62px)">
+          <input type="number" class="num-s" id="la-m11" step="0.1" value="2">
+          <input type="number" class="num-s" id="la-m12" step="0.1" value="1">
+          <input type="number" class="num-s" id="la-m21" step="0.1" value="1">
+          <input type="number" class="num-s" id="la-m22" step="0.1" value="2">
+        </span></span>
+        <select id="la-preset">
+          <option value="">Forh&aring;ndsvalg &hellip;</option>
+          <option value="rot45">Rotasjon 45&deg;</option>
+          <option value="rot90">Rotasjon 90&deg;</option>
+          <option value="scale">Skalering (2, &frac12;)</option>
+          <option value="mirx">Speiling om x-aksen</option>
+          <option value="miryx">Speiling om y = x</option>
+          <option value="shear">Skj&aelig;r (shear)</option>
+          <option value="projx">Projeksjon p&aring; x-aksen</option>
+          <option value="sym">Symmetrisk (2,1;1,2)</option>
+        </select>
+      </div>
+      <div class="slider-row">
+        <span class="sl-name">Animasjon: I &rarr; A</span><output id="la-anim-out">1.00</output>
+        <input type="range" id="la-anim" min="0" max="1" step="0.01" value="1">
+      </div>
+      <div class="row">
+        <button class="btn" id="la-anim-play">&#9654; Animer</button>
+        <label class="chk"><input type="checkbox" id="la-show-eig" checked> Egenvektor-retninger</label>
+        <label class="chk"><input type="checkbox" id="la-show-w" checked> Testvektor w (dra den!)</label>
+      </div>
+      <div class="info" id="la-trans-info"></div>
+    </div>
+
+    <div class="card" id="la-sys-card">
+      <h2>Line&aelig;re ligningssystemer &mdash; Gauss-eliminasjon</h2>
+      <div class="row">
+        <span class="muted">Antall ukjente:</span>
+        <select id="la-sys-n"><option value="2" selected>2</option><option value="3">3</option><option value="4">4</option></select>
+        <label class="chk"><input type="checkbox" id="la-sys-steps" checked> Vis radoperasjoner</label>
+      </div>
+      <div id="la-sys-inputs"></div>
+      <button class="btn primary" id="la-sys-solve">L&oslash;s systemet</button>
+      <canvas id="la-sys-canvas"></canvas>
+      <div id="la-sys-out"></div>
+    </div>
+
+    <div class="card" id="la-mat-card">
+      <h2>Matriseregner</h2>
+      <div class="row mat-editors">
+        <div>
+          <div class="muted">A: <select id="la-a-rows"><option>1</option><option selected>2</option><option>3</option><option>4</option></select> &times;
+          <select id="la-a-cols"><option>1</option><option selected>2</option><option>3</option><option>4</option></select></div>
+          <span class="mat-wrap"><span class="mat-edit" id="la-a-edit"></span></span>
+        </div>
+        <div>
+          <div class="muted">B: <select id="la-b-rows"><option>1</option><option selected>2</option><option>3</option><option>4</option></select> &times;
+          <select id="la-b-cols"><option>1</option><option selected>2</option><option>3</option><option>4</option></select></div>
+          <span class="mat-wrap"><span class="mat-edit" id="la-b-edit"></span></span>
+        </div>
+        <label class="inline">k = <input type="number" id="la-k" step="0.5" value="2" class="num-s"></label>
+      </div>
+      <div class="la-ops">
+        <button class="btn" data-op="add">A + B</button>
+        <button class="btn" data-op="sub">A &minus; B</button>
+        <button class="btn" data-op="mulAB">A &middot; B</button>
+        <button class="btn" data-op="mulBA">B &middot; A</button>
+        <button class="btn" data-op="scale">k &middot; A</button>
+        <button class="btn" data-op="pow2">A&sup2;</button>
+        <button class="btn" data-op="transp">A&#7488;</button>
+        <button class="btn" data-op="inv">A&#8315;&sup1;</button>
+        <button class="btn" data-op="det">det(A)</button>
+        <button class="btn" data-op="rank">rang(A)</button>
+        <button class="btn" data-op="trace">spor(A)</button>
+        <button class="btn" data-op="eig">Egenverdier/-vektorer</button>
+        <button class="btn" data-op="sqrt">&radic;A</button>
+      </div>
+      <div id="la-mat-out" class="info"></div>
+      <div class="hint">Egenverdier st&oslash;ttes for 2&times;2 og 3&times;3. &radic;A finnes numerisk (Denman&ndash;Beavers-iterasjon) n&aring;r en reell kvadratrot eksisterer.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ FYSIKK ============ -->
+<section class="tab-page" id="tab-physics">
+  <div class="subtabs" id="phys-subtabs">
+    <button class="subtab" data-sub="metode">1 &middot; Spr&aring;k og metoder</button>
+    <button class="subtab" data-sub="kinematikk">2 &middot; Rettlinjet bevegelse</button>
+    <button class="subtab active" data-sub="dynamikk">3 &middot; Krefter og dynamikk</button>
+    <button class="subtab" data-sub="energi">4 &middot; Energi og arbeid</button>
+    <button class="subtab" data-sub="termo">5 &middot; Termofysikk</button>
+  </div>
+  <div class="phys-body">
+
+    <!-- --- 1: Språk og metoder --- -->
+    <div class="phys-page lay-cards" id="phys-metode">
+      <div class="cards-grid">
+        <div class="card">
+          <h2>M&aring;linger og usikkerhet</h2>
+          <div class="hint">Lim inn m&aring;leserien din (tall skilt med mellomrom, komma eller linjeskift):</div>
+          <textarea id="met-data" rows="3" spellcheck="false">9.79 9.83 9.80 9.85 9.78 9.81</textarea>
+          <div class="info" id="met-stats"></div>
+          <div class="hint">Standardavviket s beskriver spredningen i enkeltm&aring;linger, mens standardfeilen s/&radic;n er
+            usikkerheten i <i>gjennomsnittet</i>. Resultater oppgis som x&#772; &plusmn; usikkerhet, og usikkerheten
+            avrundes til 1&ndash;2 gjeldende siffer.</div>
+        </div>
+        <div class="card">
+          <h2>Gjeldende siffer</h2>
+          <label class="inline">Analyser tallet: <input type="text" id="sig-input" value="0.004560" class="mono" spellcheck="false"></label>
+          <div class="info" id="sig-out"></div>
+          <div class="divider"></div>
+          <label class="inline">Avrund <input type="text" id="round-value" value="9.80665" class="mono" spellcheck="false"> til
+            <input type="number" id="round-n" value="3" min="1" max="12" style="width:56px"> gjeldende siffer</label>
+          <div class="info" id="round-out"></div>
+        </div>
+        <div class="card">
+          <h2>SI-enheter og prefikser</h2>
+          <div class="row">
+            <input type="number" id="pre-value" value="2.5" class="num-s" style="width:90px">
+            <select id="pre-from"></select>
+            <input type="text" id="pre-unit" value="m" style="width:52px" class="mono" spellcheck="false">
+            <span class="muted">&rarr;</span>
+            <select id="pre-to"></select>
+          </div>
+          <div class="info" id="pre-out"></div>
+          <table class="readout si-table">
+            <tr><td>Lengde</td><td class="mono">meter (m)</td><td>Masse</td><td class="mono">kilogram (kg)</td></tr>
+            <tr><td>Tid</td><td class="mono">sekund (s)</td><td>Temperatur</td><td class="mono">kelvin (K)</td></tr>
+            <tr><td>Str&oslash;m</td><td class="mono">ampere (A)</td><td>Stoffmengde</td><td class="mono">mol</td></tr>
+            <tr><td>Kraft</td><td class="mono">N = kg&middot;m/s&sup2;</td><td>Energi</td><td class="mono">J = N&middot;m</td></tr>
+            <tr><td>Effekt</td><td class="mono">W = J/s</td><td>Trykk</td><td class="mono">Pa = N/m&sup2;</td></tr>
+          </table>
+        </div>
+        <div class="card">
+          <h2>Den vitenskapelige metoden</h2>
+          <ol class="method-steps">
+            <li><b>Observasjon</b> &mdash; du legger merke til et fenomen og stiller et sp&oslash;rsm&aring;l.</li>
+            <li><b>Hypotese</b> &mdash; et testbart forslag til forklaring. Den m&aring; kunne <i>motbevises</i>!</li>
+            <li><b>Eksperiment</b> &mdash; du varierer &eacute;n st&oslash;rrelse om gangen og m&aring;ler. Gjenta m&aring;lingene for &aring; tallfeste usikkerheten.</li>
+            <li><b>Analyse</b> &mdash; plott data, finn sammenhenger, sammenlign med hypotesen <i>innenfor usikkerheten</i>.</li>
+            <li><b>Konklusjon</b> &mdash; styrkes eller forkastes hypotesen? Hva er feilkildene? Hva b&oslash;r unders&oslash;kes videre?</li>
+          </ol>
+          <div class="hint">Tips: bruk verkt&oslash;yene p&aring; denne siden i analysen &mdash; m&aring;leserie-statistikk for usikkerhet,
+            og gjeldende siffer n&aring;r du oppgir svaret. En teori i fysikk er en hypotese som har overlevd sv&aelig;rt mange tester.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- --- 2: Kinematikk --- -->
+    <div class="phys-page lay-sim" id="phys-kinematikk">
+      <aside class="panel">
+        <div class="group">
+          <div class="group-title">Konstant akselerasjon</div>
+          <div class="slider-row"><span class="sl-name">Startposisjon s&#8320;</span><output id="o-kin-s0">0 m</output>
+            <input type="range" id="kin-s0" min="-50" max="50" step="1" value="0"></div>
+          <div class="slider-row"><span class="sl-name">Startfart v&#8320;</span><output id="o-kin-v0">5 m/s</output>
+            <input type="range" id="kin-v0" min="-30" max="30" step="0.5" value="5"></div>
+          <div class="slider-row"><span class="sl-name">Akselerasjon a</span><output id="o-kin-a">2 m/s&sup2;</output>
+            <input type="range" id="kin-a" min="-10" max="10" step="0.1" value="2"></div>
+          <div class="slider-row"><span class="sl-name">Varighet</span><output id="o-kin-dur">10 s</output>
+            <input type="range" id="kin-dur" min="2" max="30" step="1" value="10"></div>
+        </div>
+        <div class="group row">
+          <button class="btn primary" id="kin-run">&#9654; Start</button>
+          <button class="btn" id="kin-reset">&#8634; Nullstill</button>
+        </div>
+        <div class="group">
+          <div class="group-title">Avlesning</div>
+          <table class="readout">
+            <tr><td>Tid t</td><td id="kin-t" class="mono">&ndash;</td></tr>
+            <tr><td>Posisjon s</td><td id="kin-s" class="mono">&ndash;</td></tr>
+            <tr><td>Fart v</td><td id="kin-v" class="mono">&ndash;</td></tr>
+          </table>
+          <div class="hint">Formler: v = v&#8320; + at &nbsp;&middot;&nbsp; s = s&#8320; + v&#8320;t + &frac12;at&sup2;</div>
+        </div>
+        <div class="group">
+          <div class="group-title">Formell&oslash;ser (uten s&#8320;)</div>
+          <div class="hint">Fyll inn <b>n&oslash;yaktig tre</b> av st&oslash;rrelsene &mdash; la resten st&aring; tomme, s&aring; regnes de ut.</div>
+          <label class="inline">s = <input type="text" id="sol-s" class="mono"> m</label>
+          <label class="inline">v&#8320; = <input type="text" id="sol-v0" class="mono"> m/s</label>
+          <label class="inline">v = <input type="text" id="sol-v" class="mono"> m/s</label>
+          <label class="inline">a = <input type="text" id="sol-a" class="mono"> m/s&sup2;</label>
+          <label class="inline">t = <input type="text" id="sol-t" class="mono"> s</label>
+          <div class="row">
+            <button class="btn primary" id="sol-solve">L&oslash;s</button>
+            <button class="btn" id="sol-clear">T&oslash;m</button>
+          </div>
+          <div class="info" id="sol-out"></div>
+        </div>
+      </aside>
+      <div class="sim-col rows-track">
+        <canvas id="kin-track"></canvas>
+        <canvas id="kin-graphs"></canvas>
+      </div>
+    </div>
+
+    <!-- --- 3: Dynamikk (krefter) --- -->
+    <div class="phys-page lay-sim active" id="phys-dynamikk">
+      <aside class="panel">
+        <div class="group">
+          <div class="group-title">Legeme</div>
+          <div class="slider-row"><span class="sl-name">Masse m</span><output id="o-mass">5.0 kg</output>
+            <input type="range" id="f-mass" min="0.5" max="20" step="0.1" value="5"></div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">Underlag og milj&oslash;</div>
+          <div class="slider-row"><span class="sl-name">Tyngdeakselerasjon g</span><output id="o-g">9.81 m/s&sup2;</output>
+            <input type="range" id="f-g" min="1" max="25" step="0.01" value="9.81"></div>
+          <div class="slider-row"><span class="sl-name">Helningsvinkel &theta;</span><output id="o-theta">0&deg;</output>
+            <input type="range" id="f-theta" min="0" max="45" step="0.5" value="0"></div>
+          <label class="inline sel">Materialer:
+            <select id="f-preset">
+              <option value="custom">Egendefinert</option>
+              <option value="steel">St&aring;l p&aring; st&aring;l</option>
+              <option value="wood" selected>Tre p&aring; tre</option>
+              <option value="rubber">Gummi p&aring; asfalt</option>
+              <option value="ice">Is p&aring; is</option>
+              <option value="none">Friksjonsfritt</option>
+            </select>
+          </label>
+          <div class="slider-row"><span class="sl-name">Statisk friksjon &mu;<sub>s</sub></span><output id="o-mus">0.50</output>
+            <input type="range" id="f-mus" min="0" max="1.5" step="0.01" value="0.5"></div>
+          <div class="slider-row"><span class="sl-name">Kinetisk friksjon &mu;<sub>k</sub></span><output id="o-muk">0.30</output>
+            <input type="range" id="f-muk" min="0" max="1.5" step="0.01" value="0.3"></div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">P&aring;f&oslash;rt kraft</div>
+          <div class="slider-row"><span class="sl-name">Kraft F (langs planet)</span><output id="o-force">0 N</output>
+            <input type="range" id="f-force" min="-200" max="200" step="1" value="0"></div>
+          <div class="slider-row"><span class="sl-name">Vinkel &alpha; (over planet)</span><output id="o-alpha">0&deg;</output>
+            <input type="range" id="f-alpha" min="-80" max="80" step="1" value="0"></div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">Visning</div>
+          <div class="slider-row"><span class="sl-name">Vektorskala</span><output id="o-scale">1.5 px/N</output>
+            <input type="range" id="f-scale" min="0.3" max="6" step="0.1" value="1.5"></div>
+          <label class="chk"><input type="checkbox" id="f-fld" checked> Fritt-legeme-diagram</label>
+        </div>
+
+        <div class="group row">
+          <button class="btn primary" id="f-run">&#9654; Start</button>
+          <button class="btn" id="f-reset">&#8634; Nullstill</button>
+        </div>
+
+        <div class="group">
+          <div class="group-title">M&aring;leverdier</div>
+          <table class="readout">
+            <tr><td>Normalkraft N</td><td id="fv-N" class="mono">&ndash;</td></tr>
+            <tr><td>Tyngde langs planet G&#8741;</td><td id="fv-gpar" class="mono">&ndash;</td></tr>
+            <tr><td>P&aring;f&oslash;rt langs planet F&#8741;</td><td id="fv-fpar" class="mono">&ndash;</td></tr>
+            <tr><td>Friksjon f</td><td id="fv-fric" class="mono">&ndash;</td></tr>
+            <tr><td>Nettokraft &Sigma;F</td><td id="fv-net" class="mono">&ndash;</td></tr>
+            <tr><td>Akselerasjon a</td><td id="fv-acc" class="mono">&ndash;</td></tr>
+            <tr><td>Fart v</td><td id="fv-vel" class="mono">&ndash;</td></tr>
+            <tr><td>Posisjon s</td><td id="fv-pos" class="mono">&ndash;</td></tr>
+            <tr><td>Tid t</td><td id="fv-time" class="mono">&ndash;</td></tr>
+          </table>
+          <div class="info" id="fv-status"></div>
+        </div>
+      </aside>
+
+      <div class="force-right">
+        <canvas id="force-canvas"></canvas>
+        <canvas id="force-graph"></canvas>
+      </div>
+    </div>
+
+    <!-- --- 4: Energi og arbeid --- -->
+    <div class="phys-page lay-sim" id="phys-energi">
+      <aside class="panel">
+        <div class="group">
+          <div class="group-title">Vertikalt kast / fritt fall</div>
+          <div class="slider-row"><span class="sl-name">Masse m</span><output id="o-en-m">1.0 kg</output>
+            <input type="range" id="en-m" min="0.1" max="10" step="0.1" value="1"></div>
+          <div class="slider-row"><span class="sl-name">Starth&oslash;yde h&#8320;</span><output id="o-en-h0">10 m</output>
+            <input type="range" id="en-h0" min="0" max="30" step="0.5" value="10"></div>
+          <div class="slider-row"><span class="sl-name">Startfart v&#8320; (+ = opp)</span><output id="o-en-v0">12 m/s</output>
+            <input type="range" id="en-v0" min="-20" max="25" step="0.5" value="12"></div>
+          <div class="slider-row"><span class="sl-name">Tyngdeakselerasjon g</span><output id="o-en-g">9.81 m/s&sup2;</output>
+            <input type="range" id="en-g" min="1" max="25" step="0.01" value="9.81"></div>
+          <div class="slider-row"><span class="sl-name">Luftmotstand k (F = kv&sup2;)</span><output id="o-en-k">0.00</output>
+            <input type="range" id="en-k" min="0" max="2" step="0.01" value="0"></div>
+        </div>
+        <div class="group row">
+          <button class="btn primary" id="en-run">&#9654; Start</button>
+          <button class="btn" id="en-reset">&#8634; Nullstill</button>
+        </div>
+        <div class="group">
+          <div class="group-title">Energiregnskap</div>
+          <table class="readout">
+            <tr><td>H&oslash;yde h</td><td id="en-h" class="mono">&ndash;</td></tr>
+            <tr><td>Fart v</td><td id="en-v" class="mono">&ndash;</td></tr>
+            <tr><td>Potensiell E<sub>p</sub> = mgh</td><td id="en-ep" class="mono">&ndash;</td></tr>
+            <tr><td>Kinetisk E<sub>k</sub> = &frac12;mv&sup2;</td><td id="en-ek" class="mono">&ndash;</td></tr>
+            <tr><td>Mekanisk E<sub>m</sub></td><td id="en-em" class="mono">&ndash;</td></tr>
+            <tr><td>Tapt til luftmotstand</td><td id="en-tapt" class="mono">&ndash;</td></tr>
+          </table>
+          <div class="info" id="en-status"></div>
+          <div class="hint">Uten luftmotstand er E<sub>m</sub> = E<sub>p</sub> + E<sub>k</sub> konstant &mdash; energien
+            bare veksler form. Skru opp k og se hvor energien blir av!</div>
+        </div>
+        <div class="group">
+          <div class="group-title">Arbeid og effekt</div>
+          <div class="hint">W = F &middot; s &middot; cos &alpha;</div>
+          <label class="inline">F = <input type="number" id="wk-F" value="50" class="num-s"> N</label>
+          <label class="inline">s = <input type="number" id="wk-s" value="3" class="num-s"> m</label>
+          <label class="inline">&alpha; = <input type="number" id="wk-alpha" value="30" class="num-s"> &deg;</label>
+          <label class="inline">t = <input type="number" id="wk-t" value="6" class="num-s"> s</label>
+          <div class="info" id="wk-out"></div>
+        </div>
+      </aside>
+      <div class="sim-col rows-main">
+        <canvas id="en-canvas"></canvas>
+        <canvas id="en-graph"></canvas>
+      </div>
+    </div>
+
+    <!-- --- 5: Termofysikk --- -->
+    <div class="phys-page lay-cards" id="phys-termo">
+      <div class="cards-grid">
+        <div class="card">
+          <h2>Oppvarming av vann &mdash; faseoverganger</h2>
+          <canvas id="th-canvas"></canvas>
+          <div class="slider-row"><span class="sl-name">Masse m</span><output id="o-th-m">0.50 kg</output>
+            <input type="range" id="th-m" min="0.05" max="5" step="0.05" value="0.5"></div>
+          <div class="slider-row"><span class="sl-name">Tilf&oslash;rt effekt P</span><output id="o-th-P">500 W</output>
+            <input type="range" id="th-P" min="50" max="3000" step="10" value="500"></div>
+          <div class="slider-row"><span class="sl-name">Starttemperatur T&#8320;</span><output id="o-th-T0">-20 &deg;C</output>
+            <input type="range" id="th-T0" min="-40" max="90" step="1" value="-20"></div>
+          <div class="slider-row"><span class="sl-name">Simuleringshastighet</span><output id="o-th-speed">&times;60</output>
+            <input type="range" id="th-speed" min="1" max="600" step="1" value="60"></div>
+          <div class="row">
+            <button class="btn primary" id="th-run">&#9654; Start</button>
+            <button class="btn" id="th-reset">&#8634; Nullstill</button>
+          </div>
+          <div class="info" id="th-read"></div>
+          <div class="hint">Temperaturen st&aring;r stille under smelting (0&nbsp;&deg;C) og koking (100&nbsp;&deg;C) &mdash;
+            all energien g&aring;r til faseovergangen. c<sub>is</sub> = 2.1, c<sub>vann</sub> = 4.19, c<sub>damp</sub> = 2.0 kJ/(kg&middot;K);
+            L<sub>f</sub> = 334 kJ/kg, L<sub>v</sub> = 2256 kJ/kg.</div>
+        </div>
+
+        <div class="card">
+          <h2>Kalorimetri &mdash; blanding av to stoffer</h2>
+          <div class="mix-row">
+            <span class="muted">Stoff 1:</span>
+            <select id="th-c1"></select>
+            <label class="inline">m = <input type="number" id="th-m1" value="0.2" step="0.05" class="num-s"> kg</label>
+            <label class="inline">T = <input type="number" id="th-T1" value="80" class="num-s"> &deg;C</label>
+          </div>
+          <div class="mix-row">
+            <span class="muted">Stoff 2:</span>
+            <select id="th-c2"></select>
+            <label class="inline">m = <input type="number" id="th-m2" value="0.5" step="0.05" class="num-s"> kg</label>
+            <label class="inline">T = <input type="number" id="th-T2" value="20" class="num-s"> &deg;C</label>
+          </div>
+          <div class="info" id="th-mix-out"></div>
+          <div class="hint">Varme g&aring;r fra varmt til kaldt til begge har samme temperatur (termofysikkens 2. lov).
+            Modellen ser bort fra faseoverganger og varmetap til omgivelsene.</div>
+        </div>
+
+        <div class="card">
+          <h2>Termofysikkens 1. og 2. lov</h2>
+          <div class="hint"><b>1. lov (energibevaring):</b> &Delta;U = Q + W &mdash; endringen i indre energi er varmen
+            tilf&oslash;rt systemet pluss arbeidet gjort <i>p&aring;</i> systemet.</div>
+          <label class="inline">Q = <input type="number" id="th-Q" value="300" class="num-s"> J</label>
+          <label class="inline">W = <input type="number" id="th-W" value="-120" class="num-s"> J</label>
+          <div class="info" id="th-du-out"></div>
+          <div class="hint">Fortegn: Q &gt; 0 = varme inn &middot; Q &lt; 0 = varme ut &middot; W &gt; 0 = systemet komprimeres
+            (arbeid p&aring; systemet) &middot; W &lt; 0 = systemet ekspanderer og gj&oslash;r arbeid p&aring; omgivelsene.</div>
+          <div class="divider"></div>
+          <div class="hint"><b>2. lov:</b> Varme g&aring;r av seg selv bare fra h&oslash;y til lav temperatur, og entropien
+            (uordenen) i et isolert system &oslash;ker. Derfor kan ikke en varmemaskin gj&oslash;re all varme om til arbeid,
+            og derfor blandes alltid det varme og det kalde &mdash; aldri omvendt.</div>
+        </div>
+
+        <div class="card">
+          <h2>Klimafysikk &mdash; jordas energibalanse</h2>
+          <canvas id="kl-canvas"></canvas>
+          <div class="slider-row"><span class="sl-name">Solkonstanten S</span><output id="o-kl-S">1361 W/m&sup2;</output>
+            <input type="range" id="kl-S" min="1000" max="2000" step="1" value="1361"></div>
+          <div class="slider-row"><span class="sl-name">Albedo &alpha; (refleksjon)</span><output id="o-kl-alb">0.30</output>
+            <input type="range" id="kl-alb" min="0" max="0.9" step="0.01" value="0.3"></div>
+          <div class="slider-row"><span class="sl-name">Drivhusfaktor &epsilon; (atmosf&aelig;re)</span><output id="o-kl-eps">0.77</output>
+            <input type="range" id="kl-eps" min="0" max="1" step="0.01" value="0.77"></div>
+          <div class="info" id="kl-out"></div>
+          <div class="hint">Enkel en-lags modell: jorda mottar S(1&minus;&alpha;)/4 per m&sup2;, str&aring;ler ut &sigma;T&#8308;,
+            og atmosf&aelig;ren sender en andel &epsilon;/2 tilbake. &Oslash;k &epsilon; (mer CO&#8322;) og se overflatetemperaturen stige.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<script src="js/parser.js"></script>
+<script src="js/plotter.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/calculus.js"></script>
+<script src="js/trig.js"></script>
+<script src="js/linalg.js"></script>
+<script src="js/phys_method.js"></script>
+<script src="js/phys_kinematics.js"></script>
+<script src="js/forces.js"></script>
+<script src="js/phys_energy.js"></script>
+<script src="js/phys_thermo.js"></script>
+<script src="js/physics.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
