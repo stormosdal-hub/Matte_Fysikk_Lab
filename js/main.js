@@ -72,11 +72,22 @@
 
   document.getElementById("save-btn").addEventListener("click", Storage.save);
   document.getElementById("load-btn").addEventListener("click", Storage.load);
+  document.getElementById("share-btn").addEventListener("click", Storage.share);
 
   // oppstart
   CalculusTab.init();
   TrigTab.init();
   LinAlgTab.init();
   PhysicsTab.init();
+
+  // Nedlastingsknapp på de viktigste kort-grafene (fast høyde)
+  attachCanvasDownload(document.getElementById("circle-canvas"), "enhetssirkel");
+  attachCanvasDownload(document.getElementById("abcd-canvas"), "sinusfunksjon");
+  attachCanvasDownload(document.getElementById("la-vec-canvas"), "vektorer");
+  attachCanvasDownload(document.getElementById("la-trans-canvas"), "transformasjon");
+
   switchTab("calculus");
+
+  // Hvis URL-en inneholder et delt oppsett (#s=...), last det inn.
+  Storage.loadFromHash();
 })();

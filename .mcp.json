@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "graphify": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "/root/Matte_Fysikk_Lab/.mcp/server.js"
+      ]
+    }
+  }
+}

@@ -17,6 +17,52 @@ function fitCanvas(canvas) {
   return { w, h };
 }
 
+/* Laster ned innholdet i et canvas som PNG-fil. */
+function downloadCanvas(canvas, filename) {
+  if (!canvas) return;
+  const name = (filename || "graf") + ".png";
+  const trigger = href => {
+    const a = document.createElement("a");
+    a.href = href;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  };
+  if (canvas.toBlob) {
+    canvas.toBlob(blob => {
+      if (!blob) { trigger(canvas.toDataURL("image/png")); return; }
+      const url = URL.createObjectURL(blob);
+      trigger(url);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }, "image/png");
+  } else {
+    trigger(canvas.toDataURL("image/png"));
+  }
+}
+
+/* Pakker et canvas i en posisjonert wrapper og legger på en liten
+   nedlastingsknapp øverst til høyre. Egnet for canvas med fast høyde. */
+function attachCanvasDownload(canvas, filename) {
+  if (!canvas || canvas.dataset.dlAttached) return;
+  canvas.dataset.dlAttached = "1";
+  const parent = canvas.parentNode;
+  const wrap = document.createElement("div");
+  wrap.className = "canvas-dl-wrap";
+  parent.insertBefore(wrap, canvas);
+  wrap.appendChild(canvas);
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "canvas-dl-btn";
+  btn.title = "Last ned som PNG-bilde";
+  btn.innerHTML = "&#11015;";
+  btn.addEventListener("click", e => {
+    e.stopPropagation();
+    downloadCanvas(canvas, filename);
+  });
+  wrap.appendChild(btn);
+}
+
 function formatNum(v, digits = 6) {
   if (!isFinite(v)) return v > 0 ? "∞" : v < 0 ? "−∞" : "–";
   if (v === 0) return "0";

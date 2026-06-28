@@ -203,3 +203,8 @@ const MathParser = (() => {
     isReserved: n => !!FUNCS[n] || CONSTS[n] !== undefined
   };
 })();
+
+/* Gjør parseren krevbar i Node (for enhetstester) uten å påvirke nettleseren. */
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = MathParser;
+}

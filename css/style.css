@@ -221,6 +221,22 @@ input[type="checkbox"] { accent-color: var(--accent); }
 .sl-name { font-size: 13px; }
 output { font-family: var(--mono); font-size: 12.5px; color: var(--accent); white-space: nowrap; }
 
+/* Min/max-grenser for parameter-glidebrytere */
+.param-block { margin-bottom: 13px; }
+.param-block .slider-row { margin-bottom: 4px; }
+.param-range {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+}
+.param-range .muted { font-size: 11px; }
+.param-range-in {
+  width: 58px !important;
+  padding: 3px 5px !important;
+  font-size: 12px !important;
+}
+
 .row { display: flex; align-items: center; gap: 10px; margin: 10px 0; flex-wrap: wrap; }
 .chk { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; font-size: 13px; }
 .inline { display: inline-flex; align-items: center; gap: 6px; margin: 4px 10px 4px 0; font-size: 13px; }
@@ -324,6 +340,28 @@ output { font-family: var(--mono); font-size: 12.5px; color: var(--accent); whit
   cursor: pointer;
 }
 .graph-btns button:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Nedlastingsknapp som legges oppå kort-canvas */
+.canvas-dl-wrap { position: relative; }
+.canvas-dl-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(23, 26, 33, 0.9);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  font-size: 14px;
+  cursor: pointer;
+  opacity: 0.55;
+  z-index: 5;
+}
+.canvas-dl-btn:hover { opacity: 1; border-color: var(--accent); color: var(--accent); }
 
 #calc-coords {
   position: absolute;
