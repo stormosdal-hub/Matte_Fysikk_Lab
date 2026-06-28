@@ -80,11 +80,21 @@
   LinAlgTab.init();
   PhysicsTab.init();
 
-  // Nedlastingsknapp på de viktigste kort-grafene (fast høyde)
+  // Nedlastingsknapp på kort-grafene med fast høyde (pakkes inn)
   attachCanvasDownload(document.getElementById("circle-canvas"), "enhetssirkel");
   attachCanvasDownload(document.getElementById("abcd-canvas"), "sinusfunksjon");
   attachCanvasDownload(document.getElementById("la-vec-canvas"), "vektorer");
   attachCanvasDownload(document.getElementById("la-trans-canvas"), "transformasjon");
+  attachCanvasDownload(document.getElementById("th-canvas"), "oppvarming");
+  attachCanvasDownload(document.getElementById("kl-canvas"), "klimamodell");
+
+  // Fysikk-simuleringer (grid med height:100%) — overlegg uten innpakking
+  attachOverlayDownload(document.getElementById("kin-track"), "kinematikk", "top");
+  attachOverlayDownload(document.getElementById("kin-graphs"), "kinematikk-graf", "bottom");
+  attachOverlayDownload(document.getElementById("force-canvas"), "krefter", "topleft");
+  attachOverlayDownload(document.getElementById("force-graph"), "krefter-graf", "bottom");
+  attachOverlayDownload(document.getElementById("en-canvas"), "energi", "top");
+  attachOverlayDownload(document.getElementById("en-graph"), "energi-graf", "bottom");
 
   switchTab("calculus");
 
