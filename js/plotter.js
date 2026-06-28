@@ -63,6 +63,34 @@ function attachCanvasDownload(canvas, filename) {
   wrap.appendChild(btn);
 }
 
+/* Legger en nedlastingsknapp oppå et canvas UTEN å pakke det inn — for
+   canvas med height:100% i grid (animerte simuleringer), der innpakking
+   ville brutt layouten. Knappen plasseres i toppen eller bunnen av
+   forelder-beholderen (som typisk har én canvas øverst og én nederst). */
+function attachOverlayDownload(canvas, filename, pos) {
+  if (!canvas || canvas.dataset.dlAttached) return;
+  canvas.dataset.dlAttached = "1";
+  const parent = canvas.parentNode;
+  parent.style.position = "relative";
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "canvas-dl-btn";
+  btn.title = "Last ned som PNG-bilde";
+  btn.innerHTML = "&#11015;";
+  if (pos === "bottom") {
+    btn.style.cssText = "right:18px;bottom:18px;top:auto;left:auto;";
+  } else if (pos === "topleft") {
+    btn.style.cssText = "left:18px;top:18px;right:auto;bottom:auto;";
+  } else {
+    btn.style.cssText = "right:18px;top:18px;left:auto;bottom:auto;";
+  }
+  btn.addEventListener("click", e => {
+    e.stopPropagation();
+    downloadCanvas(canvas, filename);
+  });
+  parent.appendChild(btn);
+}
+
 function formatNum(v, digits = 6) {
   if (!isFinite(v)) return v > 0 ? "∞" : v < 0 ? "−∞" : "–";
   if (v === 0) return "0";
