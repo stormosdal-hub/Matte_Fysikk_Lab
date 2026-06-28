@@ -1,0 +1,10 @@
+{
+  "name": "matte-fysikk-lab",
+  "version": "1.0.0",
+  "description": "Interaktivt matte- og fysikk-laboratorium i ren HTML/CSS/JS",
+  "private": true,
+  "scripts": {
+    "test": "node --test test/parser.test.js"
+  },
+  "license": "MIT"
+}

@@ -9,7 +9,7 @@ const CalculusTab = (() => {
   let view = null;
   const state = {
     fns: [], nextId: 1, activeId: null,
-    params: {},
+    params: {}, paramRanges: {},
     tangentOn: false, tangentX: 1,
     integralOn: false, intA: -2, intB: 2, intInit: false,
     analysis: null,
@@ -228,6 +228,14 @@ const CalculusTab = (() => {
 
   /* ---------- parametere ---------- */
 
+  function paramRange(name) {
+    let r = state.paramRanges[name];
+    if (!r || !isFinite(r.min) || !isFinite(r.max) || r.max <= r.min) {
+      r = state.paramRanges[name] = { min: -10, max: 10 };
+    }
+    return r;
+  }
+
   function rebuildParams() {
     const names = new Set();
     for (const f of state.fns) {
@@ -241,6 +249,11 @@ const CalculusTab = (() => {
     list.innerHTML = "";
     for (const name of sorted) {
       if (state.params[name] === undefined) state.params[name] = 1;
+      const rng = paramRange(name);
+
+      const block = document.createElement("div");
+      block.className = "param-block";
+
       const row = document.createElement("div");
       row.className = "slider-row";
       const lab = document.createElement("span");
@@ -250,7 +263,11 @@ const CalculusTab = (() => {
       out.textContent = formatNum(state.params[name], 4);
       const sl = document.createElement("input");
       sl.type = "range";
-      sl.min = -10; sl.max = 10; sl.step = 0.05;
+      const applyRange = () => {
+        sl.min = rng.min; sl.max = rng.max;
+        sl.step = Math.max(1e-6, (rng.max - rng.min) / 400);
+      };
+      applyRange();
       sl.value = state.params[name];
       sl.addEventListener("input", () => {
         state.params[name] = parseFloat(sl.value);
@@ -258,7 +275,41 @@ const CalculusTab = (() => {
         afterChange();
       });
       row.append(lab, out, sl);
-      list.appendChild(row);
+
+      // min/max-grenser for glidebryteren
+      const re = document.createElement("div");
+      re.className = "param-range";
+      const mkBound = (val) => {
+        const inp = document.createElement("input");
+        inp.type = "number";
+        inp.className = "param-range-in mono";
+        inp.step = "any";
+        inp.value = val;
+        return inp;
+      };
+      const minIn = mkBound(rng.min);
+      const maxIn = mkBound(rng.max);
+      const onBound = () => {
+        const mn = parseFloat(minIn.value), mx = parseFloat(maxIn.value);
+        if (!isFinite(mn) || !isFinite(mx) || mx <= mn) return;
+        rng.min = mn; rng.max = mx;
+        applyRange();
+        const v = Math.min(mx, Math.max(mn, state.params[name]));
+        state.params[name] = v;
+        sl.value = v;
+        out.textContent = formatNum(v, 4);
+        afterChange();
+      };
+      minIn.addEventListener("change", onBound);
+      maxIn.addEventListener("change", onBound);
+      const mnLab = document.createElement("span");
+      mnLab.className = "muted"; mnLab.textContent = "min";
+      const mxLab = document.createElement("span");
+      mxLab.className = "muted"; mxLab.textContent = "max";
+      re.append(mnLab, minIn, mxLab, maxIn);
+
+      block.append(row, re);
+      list.appendChild(block);
     }
   }
 
@@ -514,6 +565,7 @@ const CalculusTab = (() => {
     $("calc-zoom-in").onclick = () => view.zoomCenter(0.7);
     $("calc-zoom-out").onclick = () => view.zoomCenter(1 / 0.7);
     $("calc-home").onclick = () => view.reset();
+    $("calc-download").onclick = () => downloadCanvas(view.canvas, "kalkulus-graf");
 
     $("toggle-tangent").onclick = () => {
       state.tangentOn = !state.tangentOn;
@@ -575,6 +627,7 @@ const CalculusTab = (() => {
       })),
       activeIdx: Math.max(0, state.fns.findIndex(f => f.id === state.activeId)),
       params: Object.assign({}, state.params),
+      paramRanges: JSON.parse(JSON.stringify(state.paramRanges)),
       tangentOn: state.tangentOn, tangentX: state.tangentX,
       integralOn: state.integralOn, intA: state.intA, intB: state.intB, intInit: state.intInit,
       win: { xmin: view.xmin, xmax: view.xmax, ymin: view.ymin, ymax: view.ymax }
@@ -584,6 +637,7 @@ const CalculusTab = (() => {
   function setState(s) {
     if (!s) return;
     state.params = s.params || {};
+    state.paramRanges = s.paramRanges || {};
     state.fns = [];
     state.nextId = 1;
     for (const fd of (s.fns || [])) {
