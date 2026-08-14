@@ -123,6 +123,7 @@
         <span class="muted">Enhet:</span>
         <button class="btn-seg on" id="unit-deg">grader</button><button class="btn-seg" id="unit-rad">radianer</button>
         <label class="chk"><input type="checkbox" id="snap-check"> L&aring;s til 15&deg;-steg</label>
+        <label class="chk"><input type="checkbox" id="grid-check" checked> Ruteark</label>
       </div>
       <div class="row">
         <button class="btn" id="anim-btn">&#9654; Animer</button>
@@ -145,14 +146,19 @@
     <div class="card" id="value-card">
       <h2>Verdier</h2>
       <div class="values-grid">
-        <div class="val"><small>&theta; (grader)</small><span id="v-deg">&ndash;</span></div>
-        <div class="val"><small>&theta; (radianer)</small><span id="v-rad">&ndash;</span></div>
-        <div class="val c-sin"><small>sin &theta;</small><span id="v-sin">&ndash;</span></div>
-        <div class="val c-cos"><small>cos &theta;</small><span id="v-cos">&ndash;</span></div>
-        <div class="val c-tan"><small>tan &theta;</small><span id="v-tan">&ndash;</span></div>
-        <div class="val"><small>csc &theta; = 1/sin</small><span id="v-csc">&ndash;</span></div>
-        <div class="val"><small>sec &theta; = 1/cos</small><span id="v-sec">&ndash;</span></div>
-        <div class="val"><small>cot &theta; = 1/tan</small><span id="v-cot">&ndash;</span></div>
+        <div class="val"><small>&theta; (grader)</small><input class="val-in" id="v-deg" value="&ndash;" spellcheck="false" autocomplete="off" aria-label="&theta; (grader)" title="Skriv en verdi og trykk Enter"></div>
+        <div class="val"><small>&theta; (radianer)</small><input class="val-in" id="v-rad" value="&ndash;" spellcheck="false" autocomplete="off" aria-label="&theta; (radianer)" title="Skriv en verdi og trykk Enter"></div>
+        <div class="val c-sin"><small>sin &theta;</small><input class="val-in" id="v-sin" value="&ndash;" spellcheck="false" autocomplete="off" aria-label="sin &theta;" title="Skriv en verdi og trykk Enter"></div>
+        <div class="val c-cos"><small>cos &theta;</small><input class="val-in" id="v-cos" value="&ndash;" spellcheck="false" autocomplete="off" aria-label="cos &theta;" title="Skriv en verdi og trykk Enter"></div>
+        <div class="val c-tan"><small>tan &theta;</small><input class="val-in" id="v-tan" value="&ndash;" spellcheck="false" autocomplete="off" aria-label="tan &theta;" title="Skriv en verdi og trykk Enter"></div>
+        <div class="val"><small>csc &theta; = 1/sin</small><input class="val-in" id="v-csc" value="&ndash;" spellcheck="false" autocomplete="off" aria-label="csc &theta; = 1/sin" title="Skriv en verdi og trykk Enter"></div>
+        <div class="val"><small>sec &theta; = 1/cos</small><input class="val-in" id="v-sec" value="&ndash;" spellcheck="false" autocomplete="off" aria-label="sec &theta; = 1/cos" title="Skriv en verdi og trykk Enter"></div>
+        <div class="val"><small>cot &theta; = 1/tan</small><input class="val-in" id="v-cot" value="&ndash;" spellcheck="false" autocomplete="off" aria-label="cot &theta; = 1/tan" title="Skriv en verdi og trykk Enter"></div>
+      </div>
+      <div class="hint" id="val-msg">
+        Skriv en verdi i en av rutene og trykk <b>Enter</b> &mdash; vinkelen, glidebryteren og alle de
+        andre verdiene f&oslash;lger med. Uttrykk g&aring;r ogs&aring; fint: <code>&pi;/4</code>, <code>1/2</code>,
+        <code>sqrt(2)/2</code>. Har verdien flere l&oslash;sninger, velges vinkelen n&aelig;rmest den du st&aring;r p&aring;.
       </div>
     </div>
 

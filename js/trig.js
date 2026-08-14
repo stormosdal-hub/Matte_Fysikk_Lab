@@ -14,6 +14,7 @@ const TrigTab = (() => {
     animating: false,
     speed: 0.8,           // rad/s
     show: { sin: true, cos: true, tan: true },
+    grid: true,
     A: 1, B: 1, C: 0, D: 0
   };
 
@@ -55,6 +56,30 @@ const TrigTab = (() => {
     ctx.fillStyle = "#0d1017";
     ctx.fillRect(0, 0, w, h);
 
+    // ruteark: én rute = 0,1 av radien, kraftigere strek for hver halve enhet
+    if (st.grid) {
+      const step = R / 10;
+      ctx.lineWidth = 1;
+      const line = (x1, y1, x2, y2) => {
+        ctx.beginPath();
+        ctx.moveTo(x1, y1); ctx.lineTo(x2, y2);
+        ctx.stroke();
+      };
+      const nx = Math.ceil(cx / step), ny = Math.ceil(cy / step);
+      for (let i = -nx; i <= nx; i++) {
+        if (i === 0) continue;
+        ctx.strokeStyle = i % 5 === 0 ? "rgba(255,255,255,0.14)" : "rgba(255,255,255,0.055)";
+        const x = Math.round(cx + i * step) + 0.5;
+        line(x, 0, x, h);
+      }
+      for (let j = -ny; j <= ny; j++) {
+        if (j === 0) continue;
+        ctx.strokeStyle = j % 5 === 0 ? "rgba(255,255,255,0.14)" : "rgba(255,255,255,0.055)";
+        const y = Math.round(cy + j * step) + 0.5;
+        line(0, y, w, y);
+      }
+    }
+
     // akser
     ctx.strokeStyle = "rgba(255,255,255,0.18)";
     ctx.lineWidth = 1;
@@ -62,6 +87,24 @@ const TrigTab = (() => {
     ctx.moveTo(0, cy); ctx.lineTo(w, cy);
     ctx.moveTo(cx, 0); ctx.lineTo(cx, h);
     ctx.stroke();
+
+    // tallmerker på aksene, så sin og cos kan leses rett av rutearket
+    if (st.grid) {
+      ctx.fillStyle = "#6f7789";
+      ctx.font = "10.5px Segoe UI, sans-serif";
+      ctx.strokeStyle = "rgba(255,255,255,0.35)";
+      for (const v of [-1, -0.5, 0.5, 1]) {
+        const x = cx + v * R, y = cy - v * R;
+        ctx.beginPath();
+        ctx.moveTo(x, cy - 4); ctx.lineTo(x, cy + 4);
+        ctx.moveTo(cx - 4, y); ctx.lineTo(cx + 4, y);
+        ctx.stroke();
+        ctx.textAlign = "center"; ctx.textBaseline = "top";
+        ctx.fillText(String(v), x, cy + 6);
+        ctx.textAlign = "right"; ctx.textBaseline = "middle";
+        ctx.fillText(String(v), cx - 6, y);
+      }
+    }
 
     // gradmerker på sirkelen
     ctx.strokeStyle = "rgba(255,255,255,0.3)";
@@ -137,6 +180,20 @@ const TrigTab = (() => {
       }
     }
 
+    // stiplede hjelpelinjer inn til aksene, så verdiene kan leses av rutearket
+    if (st.grid) {
+      ctx.strokeStyle = "rgba(255,255,255,0.3)";
+      ctx.lineWidth = 1;
+      ctx.setLineDash([3, 4]);
+      ctx.beginPath();
+      ctx.moveTo(px, py); ctx.lineTo(cx, py);   // vannrett inn til y-aksen (sin)
+      ctx.moveTo(px, py); ctx.lineTo(px, cy);   // loddrett ned til x-aksen (cos)
+      ctx.stroke();
+      ctx.setLineDash([]);
+      if (st.show.sin) { ctx.fillStyle = C_SIN; ctx.fillRect(cx - 4, py - 1.5, 8, 3); }
+      if (st.show.cos) { ctx.fillStyle = C_COS; ctx.fillRect(px - 1.5, cy - 4, 3, 8); }
+    }
+
     // cos (på x-aksen) og sin (vertikalt)
     if (st.show.cos) {
       ctx.strokeStyle = C_COS;
@@ -146,7 +203,8 @@ const TrigTab = (() => {
       ctx.stroke();
       ctx.fillStyle = C_COS;
       ctx.textAlign = "center";
-      ctx.fillText("cos", (cx + px) / 2, cy + (sin >= 0 ? 14 : -14));
+      ctx.textBaseline = "middle";
+      ctx.fillText("cos", (cx + px) / 2, cy + (sin >= 0 ? -11 : 11));
     }
     if (st.show.sin) {
       ctx.strokeStyle = C_SIN;
@@ -275,19 +333,143 @@ const TrigTab = (() => {
 
   /* ---------- verditabellen ---------- */
 
+  /* Skriver en verdi til et felt. Et felt brukeren holder på å skrive i får
+     stå i fred; ellers følger det vinkelen som før. */
+  function showVal(id, text) {
+    const el = $(id);
+    const prev = el.dataset.shown;
+    el.dataset.shown = text;
+    if (document.activeElement !== el || el.value === prev) el.value = text;
+  }
+
   function updateValues() {
     const th = st.theta;
     const s = Math.sin(th), c = Math.cos(th), t = Math.tan(th);
     const inv = v => Math.abs(v) < 1e-9 ? "–" : formatNum(1 / v, 5);
-    $("v-deg").textContent = formatNum(th * 180 / Math.PI, 5) + "°";
-    $("v-rad").textContent = radText(th);
-    $("v-sin").textContent = formatNum(s, 5);
-    $("v-cos").textContent = formatNum(c, 5);
-    $("v-tan").textContent = Math.abs(t) > 1e7 ? "±∞" : formatNum(t, 5);
-    $("v-csc").textContent = inv(s);
-    $("v-sec").textContent = inv(c);
-    $("v-cot").textContent = Math.abs(t) < 1e-9 ? "–" : (Math.abs(t) > 1e7 ? "0" : formatNum(1 / t, 5));
+    showVal("v-deg", formatNum(th * 180 / Math.PI, 5) + "°");
+    showVal("v-rad", radText(th));
+    showVal("v-sin", formatNum(s, 5));
+    showVal("v-cos", formatNum(c, 5));
+    showVal("v-tan", Math.abs(t) > 1e7 ? "±∞" : formatNum(t, 5));
+    showVal("v-csc", inv(s));
+    showVal("v-sec", inv(c));
+    showVal("v-cot", Math.abs(t) < 1e-9 ? "–" : (Math.abs(t) > 1e7 ? "0" : formatNum(1 / t, 5)));
     $("theta-label").textContent = formatNum(th * 180 / Math.PI, 4) + "° = " + radText(th);
+  }
+
+  /* ---------- verdier man kan skrive i ---------- */
+
+  const VALUE_IDS = ["v-deg", "v-rad", "v-sin", "v-cos", "v-tan", "v-csc", "v-sec", "v-cot"];
+
+  let HELP_MSG = "";   // hjelpeteksten under rutene, som feilmeldinger låner plassen til
+
+  const RANGE_MSG = {
+    "v-sin": "sin θ må ligge mellom −1 og 1.",
+    "v-cos": "cos θ må ligge mellom −1 og 1.",
+    "v-csc": "csc θ kan ikke ligge mellom −1 og 1.",
+    "v-sec": "sec θ kan ikke ligge mellom −1 og 1."
+  };
+
+  /* Hvilke vinkler gir denne verdien i feltet? Flere svar er vanlig:
+     sin θ = 0,5 stemmer både for 30° og 150°. */
+  function thetaCandidates(id, v) {
+    switch (id) {
+      case "v-deg": return [v * Math.PI / 180];
+      case "v-rad": return [v];
+      case "v-sin": return Math.abs(v) > 1 ? null : [Math.asin(v), Math.PI - Math.asin(v)];
+      case "v-cos": return Math.abs(v) > 1 ? null : [Math.acos(v), -Math.acos(v)];
+      case "v-tan": return [Math.atan(v), Math.atan(v) + Math.PI];
+      case "v-csc": return Math.abs(v) < 1 ? null : thetaCandidates("v-sin", 1 / v);
+      case "v-sec": return Math.abs(v) < 1 ? null : thetaCandidates("v-cos", 1 / v);
+      case "v-cot": return thetaCandidates("v-tan", 1 / v);
+    }
+    return null;
+  }
+
+  // korteste vei rundt sirkelen mellom to vinkler
+  function angDist(a, b) {
+    const d = ((a - b) % TAU + TAU) % TAU;
+    return Math.min(d, TAU - d);
+  }
+
+  /* Tåler "45°", "π/4", "1/2", "sqrt(2)/2" og norsk desimalkomma. */
+  function parseFieldValue(text) {
+    let src = String(text).replace(/[°\s]/g, "").replace(/[−–—]/g, "-");
+    if (!/[a-zπθ(]/i.test(src)) src = src.replace(/,/g, ".");
+    if (!src) throw new Error("tomt");
+    const v = MathParser.parse(src, []).fn({});
+    if (typeof v !== "number" || Number.isNaN(v)) throw new Error("ugyldig");
+    return v;
+  }
+
+  function valMsg(text, isErr) {
+    const el = $("val-msg");
+    if (!el) return;
+    if (isErr) {
+      el.textContent = text;
+      el.classList.add("bad");
+    } else if (el.classList.contains("bad")) {
+      el.innerHTML = HELP_MSG;
+      el.classList.remove("bad");
+    }
+  }
+
+  function commitValue(id, el) {
+    if (el.value === el.dataset.shown) { valMsg("", false); return; }
+
+    let v;
+    try {
+      v = parseFieldValue(el.value);
+    } catch (e) {
+      el.parentElement.classList.add("bad");
+      valMsg("Skjønner ikke «" + el.value.trim() + "». Prøv f.eks. 0.5, 1/2 eller π/4.", true);
+      return;
+    }
+
+    const cands = thetaCandidates(id, v);
+    if (!cands || !cands.every(isFinite)) {
+      el.parentElement.classList.add("bad");
+      valMsg(RANGE_MSG[id] || "Denne verdien svarer ikke til noen vinkel.", true);
+      return;
+    }
+
+    // velg løsningen som ligger nærmest vinkelen vi står på
+    let best = null, bestD = Infinity;
+    for (const a of cands) {
+      const norm = ((a % TAU) + TAU) % TAU;
+      const d = angDist(norm, st.theta);
+      if (d < bestD) { bestD = d; best = norm; }
+    }
+
+    el.parentElement.classList.remove("bad");
+    valMsg("", false);
+    setAnimating(false);
+    setTheta(best);
+    el.value = el.dataset.shown;   // vis den ferdig utregnede verdien
+    el.select();
+  }
+
+  function initValueInputs() {
+    HELP_MSG = $("val-msg") ? $("val-msg").innerHTML : "";
+    for (const id of VALUE_IDS) {
+      const el = $(id);
+      if (!el) continue;
+      el.addEventListener("keydown", e => {
+        if (e.key === "Enter") { e.preventDefault(); commitValue(id, el); }
+        else if (e.key === "Escape") { e.preventDefault(); el.value = el.dataset.shown; el.blur(); }
+      });
+      el.addEventListener("input", () => {
+        el.parentElement.classList.remove("bad");
+        valMsg("", false);
+      });
+      // animasjonen ville skrevet over det du taster
+      el.addEventListener("focus", () => setAnimating(false));
+      el.addEventListener("blur", () => {
+        el.value = el.dataset.shown;
+        el.parentElement.classList.remove("bad");
+        valMsg("", false);
+      });
+    }
   }
 
   function setTheta(rad, fromSlider) {
@@ -474,6 +656,11 @@ const TrigTab = (() => {
       redrawTrig();
     };
 
+    $("grid-check").addEventListener("change", e => {
+      st.grid = e.target.checked;
+      redrawTrig();
+    });
+
     $("snap-check").addEventListener("change", e => {
       st.snap = e.target.checked;
       if (st.snap) setTheta(st.theta);
@@ -507,6 +694,8 @@ const TrigTab = (() => {
     bindAbcd("sl-c", "out-c", "C");
     bindAbcd("sl-d", "out-d", "D");
     updateAbcdReadout();
+
+    initValueInputs();
 
     $("trig-calc-add").onclick = () => addCalcLine("");
     calcLines = [
@@ -543,7 +732,7 @@ const TrigTab = (() => {
     return {
       theta: st.theta,
       unit: st.unit,
-      inputs: captureInputs(["snap-check", "anim-speed", "show-sin", "show-cos", "show-tan",
+      inputs: captureInputs(["snap-check", "grid-check", "anim-speed", "show-sin", "show-cos", "show-tan",
         "sl-a", "sl-b", "sl-c", "sl-d"]),
       calcLines: calcLines.map(l => l.src)
     };

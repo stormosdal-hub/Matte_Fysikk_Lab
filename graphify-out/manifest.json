@@ -80,9 +80,9 @@
     "semantic_hash": "833d795fe8b15507c3f8a2bf5459d647"
   },
   "js/trig.js": {
-    "mtime": 1782369649.621681,
-    "ast_hash": "691e8494265c393b6fa6862cd4a64b19",
-    "semantic_hash": "691e8494265c393b6fa6862cd4a64b19"
+    "mtime": 1786730829.604526,
+    "ast_hash": "6384aeb2af0cf88b100ae7ecb33229e5",
+    "semantic_hash": ""
   },
   "package.json": {
     "mtime": 1782647471.7439203,
@@ -100,8 +100,8 @@
     "semantic_hash": "b564ee2791289918eb874e36b4a40484"
   },
   "index.html": {
-    "mtime": 1782647667.9038455,
-    "ast_hash": "9331e96d99eba3685e848020588ea4fd",
-    "semantic_hash": "9331e96d99eba3685e848020588ea4fd"
+    "mtime": 1786730489.5259411,
+    "ast_hash": "bdf56e05f1868cc0ddf727a8e9d0a507",
+    "semantic_hash": ""
   }
 }
