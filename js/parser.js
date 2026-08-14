@@ -162,7 +162,7 @@ const MathParser = (() => {
           expect(")", "Mangler sluttparentes ) etter " + name);
           return { type: "call", name, args };
         }
-        if (CONSTS[name] !== undefined) return { type: "const", v: CONSTS[name] };
+        if (CONSTS[name] !== undefined) return { type: "const", v: CONSTS[name], name };
         vars.add(name);
         return { type: "var", name };
       }
@@ -171,7 +171,7 @@ const MathParser = (() => {
 
     const ast = parseExpr();
     if (pos < tokens.length) throw new Error("Uventet symbol mot slutten av uttrykket");
-    return { fn: compile(ast), vars: [...vars] };
+    return { fn: compile(ast), vars: [...vars], ast };
   }
 
   function compile(n) {

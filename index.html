@@ -134,12 +134,52 @@
     </div>
 
     <div class="card" id="wave-card">
-      <h2>B&oslash;lgene &mdash; sin, cos og tan</h2>
-      <canvas id="wave-canvas"></canvas>
-      <div class="row">
-        <label class="chk c-sin"><input type="checkbox" id="show-sin" checked> sin &theta;</label>
-        <label class="chk c-cos"><input type="checkbox" id="show-cos" checked> cos &theta;</label>
-        <label class="chk c-tan"><input type="checkbox" id="show-tan" checked> tan &theta;</label>
+      <div class="card-tabs" role="tablist">
+        <button class="btn-seg on" id="tab-wave" role="tab" aria-selected="true" aria-controls="pane-wave">B&oslash;lgene &mdash; sin, cos og tan</button><button class="btn-seg" id="tab-calc" role="tab" aria-selected="false" aria-controls="pane-calc">Scientific kalkulator</button>
+      </div>
+
+      <div id="pane-wave" class="tab-pane on" role="tabpanel" aria-labelledby="tab-wave">
+        <canvas id="wave-canvas"></canvas>
+        <div class="row">
+          <label class="chk c-sin"><input type="checkbox" id="show-sin" checked> sin &theta;</label>
+          <label class="chk c-cos"><input type="checkbox" id="show-cos" checked> cos &theta;</label>
+          <label class="chk c-tan"><input type="checkbox" id="show-tan" checked> tan &theta;</label>
+        </div>
+      </div>
+
+      <div id="pane-calc" class="tab-pane" role="tabpanel" aria-labelledby="tab-calc">
+        <div class="calc-panel">
+          <label class="calc-expr-label" for="trig-calc-expr">Uttrykk</label>
+          <textarea id="trig-calc-expr" rows="5" spellcheck="false" autocomplete="off"></textarea>
+
+          <div class="insert-grid" id="trig-insert-grid" aria-label="Sett inn i uttrykket">
+            <button type="button" data-insert="θ" title="Vinkelen i radianer">&theta;</button>
+            <button type="button" data-insert="deg" title="Vinkelen i grader">deg</button>
+            <button type="button" data-insert="x" title="x-koordinaten til punktet = cos θ">x</button>
+            <button type="button" data-insert="y" title="y-koordinaten til punktet = sin θ">y</button>
+            <button type="button" data-insert="π" title="Pi">&pi;</button>
+            <button type="button" data-insert="sin(" title="Sinus (radianer)">sin</button>
+            <button type="button" data-insert="cos(" title="Cosinus (radianer)">cos</button>
+            <button type="button" data-insert="tan(" title="Tangens (radianer)">tan</button>
+            <button type="button" data-insert="asin(" title="Invers sinus">sin<sup>&minus;1</sup></button>
+            <button type="button" data-insert="acos(" title="Invers cosinus">cos<sup>&minus;1</sup></button>
+            <button type="button" data-insert="atan(" title="Invers tangens">tan<sup>&minus;1</sup></button>
+            <button type="button" data-insert="sqrt(" title="Kvadratrot">sqrt</button>
+            <button type="button" data-insert="ln(" title="Naturlig logaritme">ln</button>
+            <button type="button" data-insert="log(" title="Logaritme med grunntall 10">log</button>
+            <button type="button" data-insert="/" title="Divisjon">/</button>
+            <button type="button" data-insert="^" title="Opphøyd i">^</button>
+          </div>
+
+          <div id="trig-calc-out" class="calc-out" role="status"></div>
+
+          <div class="hint">
+            &Eacute;n utregning per linje &mdash; verdiene oppdateres direkte n&aring;r du endrer vinkelen.
+            St&oslash;rrelser: <code>&theta;</code> (radianer), <code>deg</code> (grader),
+            <code>x</code> = cos&nbsp;&theta;, <code>y</code> = sin&nbsp;&theta;, <code>&pi;</code>, <code>e</code>.
+            Lag egne med <code>navn = uttrykk</code>. <code>=</code> mellom to uttrykk tester om sidene er like.
+          </div>
+        </div>
       </div>
     </div>
 
@@ -160,19 +200,6 @@
         andre verdiene f&oslash;lger med. Uttrykk g&aring;r ogs&aring; fint: <code>&pi;/4</code>, <code>1/2</code>,
         <code>sqrt(2)/2</code>. Har verdien flere l&oslash;sninger, velges vinkelen n&aelig;rmest den du st&aring;r p&aring;.
       </div>
-    </div>
-
-    <div class="card full" id="trig-calc-card">
-      <h2>Kalkulator &mdash; formler og likninger med &theta;</h2>
-      <div class="hint">
-        Skriv uttrykk som bruker vinkelen <b>&theta;</b> (skriv <code>theta</code> eller <code>&theta;</code>) &mdash; verdiene
-        oppdateres direkte n&aring;r du endrer vinkelen over (dra punktet, bruk glidebryteren eller animer!).
-        Definer egne st&oslash;rrelser med <code>navn = uttrykk</code> (f.eks. <code>hyp = 5</code>) og bruk dem p&aring; senere linjer.
-        Skriv en likning med <code>=</code> mellom to uttrykk for &aring; teste om venstre og h&oslash;yre side er like
-        (f.eks. <code>sin(2theta) = 2sin(theta)cos(theta)</code>).
-      </div>
-      <div id="trig-calc-rows"></div>
-      <button class="btn" id="trig-calc-add">+ Legg til linje</button>
     </div>
 
     <div class="card full" id="abcd-card">
@@ -622,6 +649,7 @@
 
 <script src="js/parser.js"></script>
 <script src="js/plotter.js"></script>
+<script src="js/mathrender.js"></script>
 <script src="js/storage.js"></script>
 <script src="js/calculus.js"></script>
 <script src="js/trig.js"></script>

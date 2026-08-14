@@ -101,7 +101,7 @@ canvas { touch-action: none; }
   select,
   textarea,
   .fn-input,
-  .calc-input {
+  #trig-calc-expr {
     font-size: 16px !important;
   }
 
@@ -174,8 +174,9 @@ canvas { touch-action: none; }
   .group.row { flex-wrap: wrap; }
   .group.row .btn { flex: 1; min-width: 100px; }
 
-  /* ------ Leselinje for kalkulator-svar ------ */
-  .calc-res { min-width: 120px; font-size: 12px; }
+  /* ------ Kalkulatoren: mindre tekst, lavere resultatboks ------ */
+  .calc-out { font-size: 12.5px; max-height: 260px; }
+  .card-tabs .btn-seg { font-size: 12px; padding: 8px 6px; }
 
   /* ------ Hjelp-seksjonen: litt større linjehøyde ------ */
   .help ul { font-size: 12px; line-height: 1.8; }

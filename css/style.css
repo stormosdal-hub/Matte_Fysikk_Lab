@@ -407,7 +407,7 @@ output { font-family: var(--mono); font-size: 12.5px; color: var(--accent); whit
 #circle-card { grid-row: span 2; }
 
 #circle-canvas { width: 100%; aspect-ratio: 1 / 1; max-height: 560px; display: block; touch-action: none; cursor: pointer; }
-#wave-canvas { width: 100%; height: 320px; display: block; }
+#wave-canvas { width: 100%; height: 300px; display: block; }
 #abcd-canvas { width: 100%; height: 320px; display: block; touch-action: none; cursor: crosshair; background: var(--bg2); border-radius: 8px; }
 
 .c-sin { color: var(--green); }
@@ -584,34 +584,125 @@ textarea:focus { outline: none; border-color: var(--accent); }
 #th-canvas { width: 100%; height: 270px; margin-bottom: 10px; }
 #kl-canvas { width: 100%; height: 250px; margin-bottom: 10px; }
 
-/* ===== Trig-kalkulator ===== */
-.calc-row { display: flex; gap: 8px; margin-bottom: 6px; align-items: center; }
-.calc-input {
+/* ===== Fanekort: bølgene / kalkulatoren ===== */
+.card-tabs { display: flex; margin-bottom: 12px; }
+.card-tabs .btn-seg {
   flex: 1;
-  min-width: 0;
-  padding: 7px 9px;
+  padding: 8px 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+.tab-pane { display: none; }
+.tab-pane.on { display: block; }
+
+/* ===== Trig-kalkulator ===== */
+.calc-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.calc-expr-label {
+  display: block;
+  color: var(--muted);
+  font-size: 11.5px;
+  font-weight: 600;
+  margin-bottom: -4px;
+}
+#trig-calc-expr {
+  width: 100%;
+  min-height: 104px;
+  resize: vertical;
+  padding: 11px 12px;
   background: #10141c;
   color: var(--text);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 9px;
   font-family: var(--mono);
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 2;
 }
-.calc-input:focus { outline: none; border-color: var(--accent); }
-.calc-res {
+#trig-calc-expr:focus { outline: none; border-color: var(--accent); }
+
+.insert-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+.insert-grid button {
+  min-height: 38px;
+  padding: 6px 8px;
+  background: #10141c;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 9px;
   font-family: var(--mono);
-  font-size: 12.5px;
+  font-size: 14.5px;
+  cursor: pointer;
+}
+.insert-grid button:hover,
+.insert-grid button:focus-visible {
+  border-color: var(--accent);
   color: var(--accent);
-  text-align: right;
-  min-width: 170px;
-  flex: none;
-  max-width: 46%;
-  overflow-wrap: anywhere;
+  outline: none;
 }
-.calc-res.good { color: #8bc34a; }
-.calc-res.bad { color: var(--orange); }
-.calc-res.err { color: #ff7b72; }
-#trig-calc-add { margin-top: 4px; }
+.insert-grid button sup { font-size: 10px; }
+
+.calc-out {
+  max-height: 280px;
+  overflow: auto;
+  padding: 2px 14px;
+  background: #10141c;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 600;
+}
+.calc-item {
+  display: grid;
+  gap: 7px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--border);
+}
+.calc-item:last-child { border-bottom: 0; }
+
+/* de tre trinnene: uttrykk, uttrykk med tall, svar */
+.math-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.math-row sup { font-size: 0.72em; }
+.math-row:first-child { color: var(--text); }
+.math-row:last-child { color: var(--accent); }
+.math-row.good { color: var(--green); }
+.math-row.bad  { color: var(--orange); }
+.math-row.err  { color: #ff7b72; font-weight: normal; }
+
+.mr-row { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+
+/* brøk med ekte brøkstrek */
+.mr-frac {
+  display: inline-grid;
+  justify-items: center;
+  vertical-align: middle;
+  margin: 0 2px;
+}
+.mr-frac > span { padding: 0 8px; white-space: nowrap; }
+.mr-frac > .mr-bar { padding: 0; }
+.mr-bar {
+  width: 100%;
+  height: 2px;
+  margin: 4px 0;
+  background: currentColor;
+  opacity: 0.75;
+  border-radius: 2px;
+}
 
 /* ===== Lineær algebra ===== */
 .la-grid {
