@@ -44,9 +44,10 @@
         "mcp_kind": "mcp_config_file"
       },
       "_origin": "ast",
-      "id": "mcp",
       "community": 9,
-      "norm_label": ".mcp.json"
+      "norm_label": ".mcp.json",
+      "id": "mcp",
+      "community_name": "MCP-konfigurasjon"
     },
     {
       "label": "graphify",
@@ -57,9 +58,10 @@
         "mcp_kind": "mcp_server"
       },
       "_origin": "ast",
-      "id": "mcp_mcp_server_graphify",
       "community": 9,
-      "norm_label": "graphify"
+      "norm_label": "graphify",
+      "id": "mcp_mcp_server_graphify",
+      "community_name": "MCP-konfigurasjon"
     },
     {
       "label": "node",
@@ -70,9 +72,10 @@
         "mcp_kind": "mcp_command"
       },
       "_origin": "ast",
-      "id": "mcp_command_node",
       "community": 9,
-      "norm_label": "node"
+      "norm_label": "node",
+      "id": "mcp_command_node",
+      "community_name": "MCP-konfigurasjon"
     },
     {
       "label": "package.json",
@@ -80,9 +83,10 @@
       "source_file": ".mcp/package.json",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "mcp_package",
       "community": 6,
-      "norm_label": "package.json"
+      "norm_label": "package.json",
+      "id": "mcp_package",
+      "community_name": "MCP-server-pakke"
     },
     {
       "label": "name",
@@ -90,9 +94,10 @@
       "source_file": ".mcp/package.json",
       "source_location": "L2",
       "_origin": "ast",
-      "id": "mcp_package_name",
       "community": 6,
-      "norm_label": "name"
+      "norm_label": "name",
+      "id": "mcp_package_name",
+      "community_name": "MCP-server-pakke"
     },
     {
       "label": "version",
@@ -100,9 +105,10 @@
       "source_file": ".mcp/package.json",
       "source_location": "L3",
       "_origin": "ast",
-      "id": "mcp_package_version",
       "community": 6,
-      "norm_label": "version"
+      "norm_label": "version",
+      "id": "mcp_package_version",
+      "community_name": "MCP-server-pakke"
     },
     {
       "label": "type",
@@ -110,9 +116,10 @@
       "source_file": ".mcp/package.json",
       "source_location": "L4",
       "_origin": "ast",
-      "id": "mcp_package_type",
       "community": 6,
-      "norm_label": "type"
+      "norm_label": "type",
+      "id": "mcp_package_type",
+      "community_name": "MCP-server-pakke"
     },
     {
       "label": "main",
@@ -120,9 +127,10 @@
       "source_file": ".mcp/package.json",
       "source_location": "L5",
       "_origin": "ast",
-      "id": "mcp_package_main",
       "community": 6,
-      "norm_label": "main"
+      "norm_label": "main",
+      "id": "mcp_package_main",
+      "community_name": "MCP-server-pakke"
     },
     {
       "label": "dependencies",
@@ -130,9 +138,10 @@
       "source_file": ".mcp/package.json",
       "source_location": "L6",
       "_origin": "ast",
-      "id": "mcp_package_dependencies",
       "community": 6,
-      "norm_label": "dependencies"
+      "norm_label": "dependencies",
+      "id": "mcp_package_dependencies",
+      "community_name": "MCP-server-pakke"
     },
     {
       "label": "@modelcontextprotocol/sdk",
@@ -140,9 +149,10 @@
       "source_file": ".mcp/package.json",
       "source_location": "L7",
       "_origin": "ast",
-      "id": "mcp_package_dependencies_modelcontextprotocol_sdk",
       "community": 6,
-      "norm_label": "@modelcontextprotocol/sdk"
+      "norm_label": "@modelcontextprotocol/sdk",
+      "id": "mcp_package_dependencies_modelcontextprotocol_sdk",
+      "community_name": "MCP-server-pakke"
     },
     {
       "label": "server.js",
@@ -150,9 +160,10 @@
       "source_file": ".mcp/server.js",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "mcp_server",
       "community": 8,
-      "norm_label": "server.js"
+      "norm_label": "server.js",
+      "id": "mcp_server",
+      "community_name": "MCP graphify-server"
     },
     {
       "label": "__dirname",
@@ -160,9 +171,10 @@
       "source_file": ".mcp/server.js",
       "source_location": "L10",
       "_origin": "ast",
-      "id": "mcp_server_dirname",
       "community": 8,
-      "norm_label": "__dirname"
+      "norm_label": "__dirname",
+      "id": "mcp_server_dirname",
+      "community_name": "MCP graphify-server"
     },
     {
       "label": "VAULT",
@@ -170,9 +182,10 @@
       "source_file": ".mcp/server.js",
       "source_location": "L11",
       "_origin": "ast",
-      "id": "mcp_server_vault",
       "community": 8,
-      "norm_label": "vault"
+      "norm_label": "vault",
+      "id": "mcp_server_vault",
+      "community_name": "MCP graphify-server"
     },
     {
       "label": "server",
@@ -180,9 +193,10 @@
       "source_file": ".mcp/server.js",
       "source_location": "L14",
       "_origin": "ast",
-      "id": "mcp_server_server",
       "community": 8,
-      "norm_label": "server"
+      "norm_label": "server",
+      "id": "mcp_server_server",
+      "community_name": "MCP graphify-server"
     },
     {
       "label": "transport",
@@ -190,9 +204,10 @@
       "source_file": ".mcp/server.js",
       "source_location": "L97",
       "_origin": "ast",
-      "id": "mcp_server_transport",
       "community": 8,
-      "norm_label": "transport"
+      "norm_label": "transport",
+      "id": "mcp_server_transport",
+      "community_name": "MCP graphify-server"
     },
     {
       "label": "calculus.js",
@@ -200,9 +215,10 @@
       "source_file": "js/calculus.js",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "js_calculus",
       "community": 1,
-      "norm_label": "calculus.js"
+      "norm_label": "calculus.js",
+      "id": "js_calculus",
+      "community_name": "App-skall og fanenavigasjon"
     },
     {
       "label": "CalculusTab",
@@ -210,9 +226,10 @@
       "source_file": "js/calculus.js",
       "source_location": "L4",
       "_origin": "ast",
-      "id": "js_calculus_calculustab",
       "community": 1,
-      "norm_label": "calculustab"
+      "norm_label": "calculustab",
+      "id": "js_calculus_calculustab",
+      "community_name": "App-skall og fanenavigasjon"
     },
     {
       "label": "forces.js",
@@ -220,9 +237,10 @@
       "source_file": "js/forces.js",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "js_forces",
       "community": 3,
-      "norm_label": "forces.js"
+      "norm_label": "forces.js",
+      "id": "js_forces",
+      "community_name": "Fysikk-fanen og under-faner"
     },
     {
       "label": "ForcesTab",
@@ -230,9 +248,10 @@
       "source_file": "js/forces.js",
       "source_location": "L5",
       "_origin": "ast",
-      "id": "js_forces_forcestab",
       "community": 3,
-      "norm_label": "forcestab"
+      "norm_label": "forcestab",
+      "id": "js_forces_forcestab",
+      "community_name": "Fysikk-fanen og under-faner"
     },
     {
       "label": "linalg.js",
@@ -240,9 +259,10 @@
       "source_file": "js/linalg.js",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "js_linalg",
       "community": 1,
-      "norm_label": "linalg.js"
+      "norm_label": "linalg.js",
+      "id": "js_linalg",
+      "community_name": "App-skall og fanenavigasjon"
     },
     {
       "label": "LinAlgTab",
@@ -250,9 +270,10 @@
       "source_file": "js/linalg.js",
       "source_location": "L5",
       "_origin": "ast",
-      "id": "js_linalg_linalgtab",
       "community": 1,
-      "norm_label": "linalgtab"
+      "norm_label": "linalgtab",
+      "id": "js_linalg_linalgtab",
+      "community_name": "App-skall og fanenavigasjon"
     },
     {
       "label": "main.js",
@@ -260,9 +281,10 @@
       "source_file": "js/main.js",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "js_main",
       "community": 1,
-      "norm_label": "main.js"
+      "norm_label": "main.js",
+      "id": "js_main",
+      "community_name": "App-skall og fanenavigasjon"
     },
     {
       "label": ".roundRect()",
@@ -270,9 +292,10 @@
       "source_file": "js/main.js",
       "source_location": "L7",
       "_origin": "ast",
-      "id": "js_main_canvasrenderingcontext2d_roundrect",
       "community": 15,
-      "norm_label": ".roundrect()"
+      "norm_label": ".roundrect()",
+      "id": "js_main_canvasrenderingcontext2d_roundrect",
+      "community_name": "roundRect-polyfill"
     },
     {
       "label": "closeMenu()",
@@ -280,9 +303,10 @@
       "source_file": "js/main.js",
       "source_location": "L31",
       "_origin": "ast",
-      "id": "js_main_closemenu",
       "community": 1,
-      "norm_label": "closemenu()"
+      "norm_label": "closemenu()",
+      "id": "js_main_closemenu",
+      "community_name": "App-skall og fanenavigasjon"
     },
     {
       "label": "switchTab()",
@@ -290,9 +314,10 @@
       "source_file": "js/main.js",
       "source_location": "L36",
       "_origin": "ast",
-      "id": "js_main_switchtab",
       "community": 1,
-      "norm_label": "switchtab()"
+      "norm_label": "switchtab()",
+      "id": "js_main_switchtab",
+      "community_name": "App-skall og fanenavigasjon"
     },
     {
       "label": "parser.js",
@@ -300,9 +325,10 @@
       "source_file": "js/parser.js",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "js_parser",
       "community": 4,
-      "norm_label": "parser.js"
+      "norm_label": "parser.js",
+      "id": "js_parser",
+      "community_name": "Matteuttrykk-parser og tester"
     },
     {
       "label": "MathParser",
@@ -310,9 +336,10 @@
       "source_file": "js/parser.js",
       "source_location": "L4",
       "_origin": "ast",
-      "id": "js_parser_mathparser",
       "community": 4,
-      "norm_label": "mathparser"
+      "norm_label": "mathparser",
+      "id": "js_parser_mathparser",
+      "community_name": "Matteuttrykk-parser og tester"
     },
     {
       "label": "phys_energy.js",
@@ -320,9 +347,10 @@
       "source_file": "js/phys_energy.js",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "js_phys_energy",
       "community": 3,
-      "norm_label": "phys_energy.js"
+      "norm_label": "phys_energy.js",
+      "id": "js_phys_energy",
+      "community_name": "Fysikk-fanen og under-faner"
     },
     {
       "label": "PhysEnergy",
@@ -330,9 +358,10 @@
       "source_file": "js/phys_energy.js",
       "source_location": "L4",
       "_origin": "ast",
-      "id": "js_phys_energy_physenergy",
       "community": 3,
-      "norm_label": "physenergy"
+      "norm_label": "physenergy",
+      "id": "js_phys_energy_physenergy",
+      "community_name": "Fysikk-fanen og under-faner"
     },
     {
       "label": "phys_kinematics.js",
@@ -340,9 +369,10 @@
       "source_file": "js/phys_kinematics.js",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "js_phys_kinematics",
       "community": 3,
-      "norm_label": "phys_kinematics.js"
+      "norm_label": "phys_kinematics.js",
+      "id": "js_phys_kinematics",
+      "community_name": "Fysikk-fanen og under-faner"
     },
     {
       "label": "PhysKinematics",
@@ -350,9 +380,10 @@
       "source_file": "js/phys_kinematics.js",
       "source_location": "L4",
       "_origin": "ast",
-      "id": "js_phys_kinematics_physkinematics",
       "community": 3,
-      "norm_label": "physkinematics"
+      "norm_label": "physkinematics",
+      "id": "js_phys_kinematics_physkinematics",
+      "community_name": "Fysikk-fanen og under-faner"
     },
     {
       "label": "phys_method.js",
@@ -360,9 +391,10 @@
       "source_file": "js/phys_method.js",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "js_phys_method",
       "community": 3,
-      "norm_label": "phys_method.js"
+      "norm_label": "phys_method.js",
+      "id": "js_phys_method",
+      "community_name": "Fysikk-fanen og under-faner"
     },
     {
       "label": "PhysMethod",
@@ -370,9 +402,10 @@
       "source_file": "js/phys_method.js",
       "source_location": "L4",
       "_origin": "ast",
-      "id": "js_phys_method_physmethod",
       "community": 3,
-      "norm_label": "physmethod"
+      "norm_label": "physmethod",
+      "id": "js_phys_method_physmethod",
+      "community_name": "Fysikk-fanen og under-faner"
     },
     {
       "label": "phys_thermo.js",
@@ -380,9 +413,10 @@
       "source_file": "js/phys_thermo.js",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "js_phys_thermo",
       "community": 3,
-      "norm_label": "phys_thermo.js"
+      "norm_label": "phys_thermo.js",
+      "id": "js_phys_thermo",
+      "community_name": "Fysikk-fanen og under-faner"
     },
     {
       "label": "PhysThermo",
@@ -390,9 +424,10 @@
       "source_file": "js/phys_thermo.js",
       "source_location": "L4",
       "_origin": "ast",
-      "id": "js_phys_thermo_physthermo",
       "community": 3,
-      "norm_label": "physthermo"
+      "norm_label": "physthermo",
+      "id": "js_phys_thermo_physthermo",
+      "community_name": "Fysikk-fanen og under-faner"
     },
     {
       "label": "physics.js",
@@ -400,9 +435,10 @@
       "source_file": "js/physics.js",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "js_physics",
       "community": 3,
-      "norm_label": "physics.js"
+      "norm_label": "physics.js",
+      "id": "js_physics",
+      "community_name": "Fysikk-fanen og under-faner"
     },
     {
       "label": "PhysicsTab",
@@ -410,9 +446,10 @@
       "source_file": "js/physics.js",
       "source_location": "L4",
       "_origin": "ast",
-      "id": "js_physics_physicstab",
       "community": 3,
-      "norm_label": "physicstab"
+      "norm_label": "physicstab",
+      "id": "js_physics_physicstab",
+      "community_name": "Fysikk-fanen og under-faner"
     },
     {
       "label": "plotter.js",
@@ -420,9 +457,10 @@
       "source_file": "js/plotter.js",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "js_plotter",
       "community": 2,
-      "norm_label": "plotter.js"
+      "norm_label": "plotter.js",
+      "id": "js_plotter",
+      "community_name": "Tegne- og eksportverkt\u00f8y"
     },
     {
       "label": "fitCanvas()",
@@ -430,9 +468,10 @@
       "source_file": "js/plotter.js",
       "source_location": "L5",
       "_origin": "ast",
-      "id": "js_plotter_fitcanvas",
       "community": 2,
-      "norm_label": "fitcanvas()"
+      "norm_label": "fitcanvas()",
+      "id": "js_plotter_fitcanvas",
+      "community_name": "Tegne- og eksportverkt\u00f8y"
     },
     {
       "label": "downloadCanvas()",
@@ -440,9 +479,10 @@
       "source_file": "js/plotter.js",
       "source_location": "L21",
       "_origin": "ast",
-      "id": "js_plotter_downloadcanvas",
       "community": 2,
-      "norm_label": "downloadcanvas()"
+      "norm_label": "downloadcanvas()",
+      "id": "js_plotter_downloadcanvas",
+      "community_name": "Tegne- og eksportverkt\u00f8y"
     },
     {
       "label": "attachCanvasDownload()",
@@ -450,9 +490,10 @@
       "source_file": "js/plotter.js",
       "source_location": "L46",
       "_origin": "ast",
-      "id": "js_plotter_attachcanvasdownload",
       "community": 2,
-      "norm_label": "attachcanvasdownload()"
+      "norm_label": "attachcanvasdownload()",
+      "id": "js_plotter_attachcanvasdownload",
+      "community_name": "Tegne- og eksportverkt\u00f8y"
     },
     {
       "label": "attachOverlayDownload()",
@@ -460,9 +501,10 @@
       "source_file": "js/plotter.js",
       "source_location": "L70",
       "_origin": "ast",
-      "id": "js_plotter_attachoverlaydownload",
       "community": 2,
-      "norm_label": "attachoverlaydownload()"
+      "norm_label": "attachoverlaydownload()",
+      "id": "js_plotter_attachoverlaydownload",
+      "community_name": "Tegne- og eksportverkt\u00f8y"
     },
     {
       "label": "formatNum()",
@@ -470,9 +512,10 @@
       "source_file": "js/plotter.js",
       "source_location": "L94",
       "_origin": "ast",
-      "id": "js_plotter_formatnum",
       "community": 2,
-      "norm_label": "formatnum()"
+      "norm_label": "formatnum()",
+      "id": "js_plotter_formatnum",
+      "community_name": "Tegne- og eksportverkt\u00f8y"
     },
     {
       "label": "niceStep()",
@@ -480,9 +523,10 @@
       "source_file": "js/plotter.js",
       "source_location": "L104",
       "_origin": "ast",
-      "id": "js_plotter_nicestep",
       "community": 2,
-      "norm_label": "nicestep()"
+      "norm_label": "nicestep()",
+      "id": "js_plotter_nicestep",
+      "community_name": "Tegne- og eksportverkt\u00f8y"
     },
     {
       "label": "drawArrow()",
@@ -490,9 +534,10 @@
       "source_file": "js/plotter.js",
       "source_location": "L111",
       "_origin": "ast",
-      "id": "js_plotter_drawarrow",
       "community": 2,
-      "norm_label": "drawarrow()"
+      "norm_label": "drawarrow()",
+      "id": "js_plotter_drawarrow",
+      "community_name": "Tegne- og eksportverkt\u00f8y"
     },
     {
       "label": "GraphView",
@@ -500,9 +545,10 @@
       "source_file": "js/plotter.js",
       "source_location": "L147",
       "_origin": "ast",
-      "id": "js_plotter_graphview",
       "community": 0,
-      "norm_label": "graphview"
+      "norm_label": "graphview",
+      "id": "js_plotter_graphview",
+      "community_name": "GraphView graf-motor"
     },
     {
       "label": ".constructor()",
@@ -510,9 +556,10 @@
       "source_file": "js/plotter.js",
       "source_location": "L148",
       "_origin": "ast",
-      "id": "js_plotter_graphview_constructor",
       "community": 0,
-      "norm_label": ".constructor()"
+      "norm_label": ".constructor()",
+      "id": "js_plotter_graphview_constructor",
+      "community_name": "GraphView graf-motor"
     },
     {
       "label": ".resize()",
@@ -520,9 +567,10 @@
       "source_file": "js/plotter.js",
       "source_location": "L166",
       "_origin": "ast",
-      "id": "js_plotter_graphview_resize",
       "community": 0,
-      "norm_label": ".resize()"
+      "norm_label": ".resize()",
+      "id": "js_plotter_graphview_resize",
+      "community_name": "GraphView graf-motor"
     },
     {
       "label": ".x2px()",
@@ -530,9 +578,10 @@
       "source_file": "js/plotter.js",
       "source_location": "L172",
       "_origin": "ast",
-      "id": "js_plotter_graphview_x2px",
       "community": 0,
-      "norm_label": ".x2px()"
+      "norm_label": ".x2px()",
+      "id": "js_plotter_graphview_x2px",
+      "community_name": "GraphView graf-motor"
     },
     {
       "label": ".y2px()",
@@ -540,9 +589,10 @@
       "source_file": "js/plotter.js",
       "source_location": "L173",
       "_origin": "ast",
-      "id": "js_plotter_graphview_y2px",
       "community": 0,
-      "norm_label": ".y2px()"
+      "norm_label": ".y2px()",
+      "id": "js_plotter_graphview_y2px",
+      "community_name": "GraphView graf-motor"
     },
     {
       "label": ".px2x()",
@@ -550,9 +600,10 @@
       "source_file": "js/plotter.js",
       "source_location": "L174",
       "_origin": "ast",
-      "id": "js_plotter_graphview_px2x",
       "community": 0,
-      "norm_label": ".px2x()"
+      "norm_label": ".px2x()",
+      "id": "js_plotter_graphview_px2x",
+      "community_name": "GraphView graf-motor"
     },
     {
       "label": ".px2y()",
@@ -560,9 +611,10 @@
       "source_file": "js/plotter.js",
       "source_location": "L175",
       "_origin": "ast",
-      "id": "js_plotter_graphview_px2y",
       "community": 0,
-      "norm_label": ".px2y()"
+      "norm_label": ".px2y()",
+      "id": "js_plotter_graphview_px2y",
+      "community_name": "GraphView graf-motor"
     },
     {
       "label": ".panBy()",
@@ -570,9 +622,10 @@
       "source_file": "js/plotter.js",
       "source_location": "L177",
       "_origin": "ast",
-      "id": "js_plotter_graphview_panby",
       "community": 0,
-      "norm_label": ".panby()"
+      "norm_label": ".panby()",
+      "id": "js_plotter_graphview_panby",
+      "community_name": "GraphView graf-motor"
     },
     {
       "label": ".zoomAt()",
@@ -580,9 +633,10 @@
       "source_file": "js/plotter.js",
       "source_location": "L185",
       "_origin": "ast",
-      "id": "js_plotter_graphview_zoomat",
       "community": 0,
-      "norm_label": ".zoomat()"
+      "norm_label": ".zoomat()",
+      "id": "js_plotter_graphview_zoomat",
+      "community_name": "GraphView graf-motor"
     },
     {
       "label": ".zoomCenter()",
@@ -590,9 +644,10 @@
       "source_file": "js/plotter.js",
       "source_location": "L196",
       "_origin": "ast",
-      "id": "js_plotter_graphview_zoomcenter",
       "community": 0,
-      "norm_label": ".zoomcenter()"
+      "norm_label": ".zoomcenter()",
+      "id": "js_plotter_graphview_zoomcenter",
+      "community_name": "GraphView graf-motor"
     },
     {
       "label": ".reset()",
@@ -600,9 +655,10 @@
       "source_file": "js/plotter.js",
       "source_location": "L198",
       "_origin": "ast",
-      "id": "js_plotter_graphview_reset",
       "community": 0,
-      "norm_label": ".reset()"
+      "norm_label": ".reset()",
+      "id": "js_plotter_graphview_reset",
+      "community_name": "GraphView graf-motor"
     },
     {
       "label": ".requestRender()",
@@ -610,9 +666,10 @@
       "source_file": "js/plotter.js",
       "source_location": "L203",
       "_origin": "ast",
-      "id": "js_plotter_graphview_requestrender",
       "community": 0,
-      "norm_label": ".requestrender()"
+      "norm_label": ".requestrender()",
+      "id": "js_plotter_graphview_requestrender",
+      "community_name": "GraphView graf-motor"
     },
     {
       "label": ".render()",
@@ -620,9 +677,10 @@
       "source_file": "js/plotter.js",
       "source_location": "L208",
       "_origin": "ast",
-      "id": "js_plotter_graphview_render",
       "community": 2,
-      "norm_label": ".render()"
+      "norm_label": ".render()",
+      "id": "js_plotter_graphview_render",
+      "community_name": "Tegne- og eksportverkt\u00f8y"
     },
     {
       "label": "._grid()",
@@ -630,9 +688,10 @@
       "source_file": "js/plotter.js",
       "source_location": "L220",
       "_origin": "ast",
-      "id": "js_plotter_graphview_grid",
       "community": 2,
-      "norm_label": "._grid()"
+      "norm_label": "._grid()",
+      "id": "js_plotter_graphview_grid",
+      "community_name": "Tegne- og eksportverkt\u00f8y"
     },
     {
       "label": ".plot()",
@@ -640,9 +699,10 @@
       "source_file": "js/plotter.js",
       "source_location": "L296",
       "_origin": "ast",
-      "id": "js_plotter_graphview_plot",
       "community": 0,
-      "norm_label": ".plot()"
+      "norm_label": ".plot()",
+      "id": "js_plotter_graphview_plot",
+      "community_name": "GraphView graf-motor"
     },
     {
       "label": ".fillRegion()",
@@ -650,9 +710,10 @@
       "source_file": "js/plotter.js",
       "source_location": "L326",
       "_origin": "ast",
-      "id": "js_plotter_graphview_fillregion",
       "community": 0,
-      "norm_label": ".fillregion()"
+      "norm_label": ".fillregion()",
+      "id": "js_plotter_graphview_fillregion",
+      "community_name": "GraphView graf-motor"
     },
     {
       "label": ".drawDot()",
@@ -660,9 +721,10 @@
       "source_file": "js/plotter.js",
       "source_location": "L353",
       "_origin": "ast",
-      "id": "js_plotter_graphview_drawdot",
       "community": 0,
-      "norm_label": ".drawdot()"
+      "norm_label": ".drawdot()",
+      "id": "js_plotter_graphview_drawdot",
+      "community_name": "GraphView graf-motor"
     },
     {
       "label": "._m()",
@@ -670,9 +732,10 @@
       "source_file": "js/plotter.js",
       "source_location": "L366",
       "_origin": "ast",
-      "id": "js_plotter_graphview_m",
       "community": 0,
-      "norm_label": "._m()"
+      "norm_label": "._m()",
+      "id": "js_plotter_graphview_m",
+      "community_name": "GraphView graf-motor"
     },
     {
       "label": "._bind()",
@@ -680,9 +743,10 @@
       "source_file": "js/plotter.js",
       "source_location": "L371",
       "_origin": "ast",
-      "id": "js_plotter_graphview_bind",
       "community": 0,
-      "norm_label": "._bind()"
+      "norm_label": "._bind()",
+      "id": "js_plotter_graphview_bind",
+      "community_name": "GraphView graf-motor"
     },
     {
       "label": "storage.js",
@@ -690,9 +754,10 @@
       "source_file": "js/storage.js",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "js_storage",
       "community": 7,
-      "norm_label": "storage.js"
+      "norm_label": "storage.js",
+      "id": "js_storage",
+      "community_name": "Lagring og persistens"
     },
     {
       "label": "captureInputs()",
@@ -700,9 +765,10 @@
       "source_file": "js/storage.js",
       "source_location": "L5",
       "_origin": "ast",
-      "id": "js_storage_captureinputs",
       "community": 7,
-      "norm_label": "captureinputs()"
+      "norm_label": "captureinputs()",
+      "id": "js_storage_captureinputs",
+      "community_name": "Lagring og persistens"
     },
     {
       "label": "restoreInputs()",
@@ -710,9 +776,10 @@
       "source_file": "js/storage.js",
       "source_location": "L15",
       "_origin": "ast",
-      "id": "js_storage_restoreinputs",
       "community": 7,
-      "norm_label": "restoreinputs()"
+      "norm_label": "restoreinputs()",
+      "id": "js_storage_restoreinputs",
+      "community_name": "Lagring og persistens"
     },
     {
       "label": "toast()",
@@ -720,9 +787,10 @@
       "source_file": "js/storage.js",
       "source_location": "L33",
       "_origin": "ast",
-      "id": "js_storage_toast",
       "community": 7,
-      "norm_label": "toast()"
+      "norm_label": "toast()",
+      "id": "js_storage_toast",
+      "community_name": "Lagring og persistens"
     },
     {
       "label": "Storage",
@@ -730,9 +798,10 @@
       "source_file": "js/storage.js",
       "source_location": "L45",
       "_origin": "ast",
-      "id": "js_storage_storage",
       "community": 7,
-      "norm_label": "storage"
+      "norm_label": "storage",
+      "id": "js_storage_storage",
+      "community_name": "Lagring og persistens"
     },
     {
       "label": "trig.js",
@@ -740,9 +809,10 @@
       "source_file": "js/trig.js",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "js_trig",
       "community": 1,
-      "norm_label": "trig.js"
+      "norm_label": "trig.js",
+      "id": "js_trig",
+      "community_name": "App-skall og fanenavigasjon"
     },
     {
       "label": "TrigTab",
@@ -750,9 +820,10 @@
       "source_file": "js/trig.js",
       "source_location": "L4",
       "_origin": "ast",
-      "id": "js_trig_trigtab",
       "community": 1,
-      "norm_label": "trigtab"
+      "norm_label": "trigtab",
+      "id": "js_trig_trigtab",
+      "community_name": "App-skall og fanenavigasjon"
     },
     {
       "label": "package.json",
@@ -760,9 +831,10 @@
       "source_file": "package.json",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "package",
       "community": 5,
-      "norm_label": "package.json"
+      "norm_label": "package.json",
+      "id": "package",
+      "community_name": "App-pakkemanifest"
     },
     {
       "label": "name",
@@ -770,9 +842,10 @@
       "source_file": "package.json",
       "source_location": "L2",
       "_origin": "ast",
-      "id": "package_name",
       "community": 5,
-      "norm_label": "name"
+      "norm_label": "name",
+      "id": "package_name",
+      "community_name": "App-pakkemanifest"
     },
     {
       "label": "version",
@@ -780,9 +853,10 @@
       "source_file": "package.json",
       "source_location": "L3",
       "_origin": "ast",
-      "id": "package_version",
       "community": 5,
-      "norm_label": "version"
+      "norm_label": "version",
+      "id": "package_version",
+      "community_name": "App-pakkemanifest"
     },
     {
       "label": "description",
@@ -790,9 +864,10 @@
       "source_file": "package.json",
       "source_location": "L4",
       "_origin": "ast",
-      "id": "package_description",
       "community": 5,
-      "norm_label": "description"
+      "norm_label": "description",
+      "id": "package_description",
+      "community_name": "App-pakkemanifest"
     },
     {
       "label": "private",
@@ -800,9 +875,10 @@
       "source_file": "package.json",
       "source_location": "L5",
       "_origin": "ast",
-      "id": "package_private",
       "community": 5,
-      "norm_label": "private"
+      "norm_label": "private",
+      "id": "package_private",
+      "community_name": "App-pakkemanifest"
     },
     {
       "label": "scripts",
@@ -810,9 +886,10 @@
       "source_file": "package.json",
       "source_location": "L6",
       "_origin": "ast",
-      "id": "package_scripts",
       "community": 5,
-      "norm_label": "scripts"
+      "norm_label": "scripts",
+      "id": "package_scripts",
+      "community_name": "App-pakkemanifest"
     },
     {
       "label": "test",
@@ -820,9 +897,10 @@
       "source_file": "package.json",
       "source_location": "L7",
       "_origin": "ast",
-      "id": "package_scripts_test",
       "community": 5,
-      "norm_label": "test"
+      "norm_label": "test",
+      "id": "package_scripts_test",
+      "community_name": "App-pakkemanifest"
     },
     {
       "label": "license",
@@ -830,9 +908,10 @@
       "source_file": "package.json",
       "source_location": "L9",
       "_origin": "ast",
-      "id": "package_license",
       "community": 5,
-      "norm_label": "license"
+      "norm_label": "license",
+      "id": "package_license",
+      "community_name": "App-pakkemanifest"
     },
     {
       "label": "parser.test.js",
@@ -840,9 +919,10 @@
       "source_file": "test/parser.test.js",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "test_parser_test",
       "community": 4,
-      "norm_label": "parser.test.js"
+      "norm_label": "parser.test.js",
+      "id": "test_parser_test",
+      "community_name": "Matteuttrykk-parser og tester"
     },
     {
       "label": "test",
@@ -850,9 +930,10 @@
       "source_file": "test/parser.test.js",
       "source_location": "L4",
       "_origin": "ast",
-      "id": "test_parser_test_test",
       "community": 4,
-      "norm_label": "test"
+      "norm_label": "test",
+      "id": "test_parser_test_test",
+      "community_name": "Matteuttrykk-parser og tester"
     },
     {
       "label": "assert",
@@ -860,9 +941,10 @@
       "source_file": "test/parser.test.js",
       "source_location": "L5",
       "_origin": "ast",
-      "id": "test_parser_test_assert",
       "community": 4,
-      "norm_label": "assert"
+      "norm_label": "assert",
+      "id": "test_parser_test_assert",
+      "community_name": "Matteuttrykk-parser og tester"
     },
     {
       "label": "MathParser",
@@ -870,9 +952,10 @@
       "source_file": "test/parser.test.js",
       "source_location": "L6",
       "_origin": "ast",
-      "id": "test_parser_test_mathparser",
       "community": 4,
-      "norm_label": "mathparser"
+      "norm_label": "mathparser",
+      "id": "test_parser_test_mathparser",
+      "community_name": "Matteuttrykk-parser og tester"
     },
     {
       "label": "ev()",
@@ -880,9 +963,10 @@
       "source_file": "test/parser.test.js",
       "source_location": "L9",
       "_origin": "ast",
-      "id": "test_parser_test_ev",
       "community": 4,
-      "norm_label": "ev()"
+      "norm_label": "ev()",
+      "id": "test_parser_test_ev",
+      "community_name": "Matteuttrykk-parser og tester"
     },
     {
       "label": "near()",
@@ -890,9 +974,10 @@
       "source_file": "test/parser.test.js",
       "source_location": "L13",
       "_origin": "ast",
-      "id": "test_parser_test_near",
       "community": 4,
-      "norm_label": "near()"
+      "norm_label": "near()",
+      "id": "test_parser_test_near",
+      "community_name": "Matteuttrykk-parser og tester"
     },
     {
       "label": "index.html (MatteFysikkLab app page)",
@@ -905,8 +990,8 @@
       "contributor": null,
       "community": 1,
       "norm_label": "index.html (mattefysikklab app page)",
-      "community_name": "App-skall og fanenavigasjon",
-      "id": "index_html"
+      "id": "index_html",
+      "community_name": "App-skall og fanenavigasjon"
     },
     {
       "label": "Kalkulus tab (plot/analyze functions)",
@@ -919,8 +1004,8 @@
       "contributor": null,
       "community": 1,
       "norm_label": "kalkulus tab (plot/analyze functions)",
-      "community_name": "App-skall og fanenavigasjon",
-      "id": "index_calculus_tab"
+      "id": "index_calculus_tab",
+      "community_name": "App-skall og fanenavigasjon"
     },
     {
       "label": "Trigonometri tab (unit circle, waves, calculator)",
@@ -933,8 +1018,8 @@
       "contributor": null,
       "community": 1,
       "norm_label": "trigonometri tab (unit circle, waves, calculator)",
-      "community_name": "App-skall og fanenavigasjon",
-      "id": "index_trig_tab"
+      "id": "index_trig_tab",
+      "community_name": "App-skall og fanenavigasjon"
     },
     {
       "label": "Line\u00e6r algebra tab (vectors, matrices, transformations)",
@@ -947,8 +1032,8 @@
       "contributor": null,
       "community": 1,
       "norm_label": "line\u00e6r algebra tab (vectors, matrices, transformations)",
-      "community_name": "App-skall og fanenavigasjon",
-      "id": "index_linalg_tab"
+      "id": "index_linalg_tab",
+      "community_name": "App-skall og fanenavigasjon"
     },
     {
       "label": "Fysikk tab (physics with subtabs)",
@@ -961,8 +1046,8 @@
       "contributor": null,
       "community": 3,
       "norm_label": "fysikk tab (physics with subtabs)",
-      "community_name": "Fysikk-fanen og under-faner",
-      "id": "index_physics_tab"
+      "id": "index_physics_tab",
+      "community_name": "Fysikk-fanen og under-faner"
     },
     {
       "label": "Fysikk subtab: Spr\u00e5k og metoder",
@@ -975,8 +1060,8 @@
       "contributor": null,
       "community": 3,
       "norm_label": "fysikk subtab: sprak og metoder",
-      "community_name": "Fysikk-fanen og under-faner",
-      "id": "index_physics_metode"
+      "id": "index_physics_metode",
+      "community_name": "Fysikk-fanen og under-faner"
     },
     {
       "label": "Fysikk subtab: Rettlinjet bevegelse (kinematikk)",
@@ -989,8 +1074,8 @@
       "contributor": null,
       "community": 3,
       "norm_label": "fysikk subtab: rettlinjet bevegelse (kinematikk)",
-      "community_name": "Fysikk-fanen og under-faner",
-      "id": "index_physics_kinematikk"
+      "id": "index_physics_kinematikk",
+      "community_name": "Fysikk-fanen og under-faner"
     },
     {
       "label": "Fysikk subtab: Krefter og dynamikk",
@@ -1003,8 +1088,8 @@
       "contributor": null,
       "community": 3,
       "norm_label": "fysikk subtab: krefter og dynamikk",
-      "community_name": "Fysikk-fanen og under-faner",
-      "id": "index_physics_dynamikk"
+      "id": "index_physics_dynamikk",
+      "community_name": "Fysikk-fanen og under-faner"
     },
     {
       "label": "Fysikk subtab: Energi og arbeid",
@@ -1017,8 +1102,8 @@
       "contributor": null,
       "community": 3,
       "norm_label": "fysikk subtab: energi og arbeid",
-      "community_name": "Fysikk-fanen og under-faner",
-      "id": "index_physics_energi"
+      "id": "index_physics_energi",
+      "community_name": "Fysikk-fanen og under-faner"
     },
     {
       "label": "Fysikk subtab: Termofysikk",
@@ -1031,8 +1116,8 @@
       "contributor": null,
       "community": 3,
       "norm_label": "fysikk subtab: termofysikk",
-      "community_name": "Fysikk-fanen og under-faner",
-      "id": "index_physics_termo"
+      "id": "index_physics_termo",
+      "community_name": "Fysikk-fanen og under-faner"
     },
     {
       "label": "Node.js CI workflow",
@@ -1045,8 +1130,8 @@
       "contributor": null,
       "community": 1,
       "norm_label": "node.js ci workflow",
-      "community_name": "App-skall og fanenavigasjon",
-      "id": "workflows_node_js_ci"
+      "id": "workflows_node_js_ci",
+      "community_name": "App-skall og fanenavigasjon"
     }
   ],
   "links": [
@@ -2274,5 +2359,5 @@
       "source_file": "index.html"
     }
   ],
-  "built_at_commit": "d7bb56ea7ab61de1f971b5490e3f9bee70d282f2"
+  "built_at_commit": "c0da49d3ea477ec0816754895d19a081bf94ed95"
 }

@@ -428,6 +428,26 @@ output { font-family: var(--mono); font-size: 12.5px; color: var(--accent); whit
 .val small { display: block; color: var(--muted); font-size: 10.5px; margin-bottom: 3px; }
 .val span { font-family: var(--mono); font-size: 15px; }
 
+/* Redigerbare verdifelt: se ut som tekst, oppfører seg som input */
+.val-in {
+  display: block;
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: none;
+  border-bottom: 1px dashed transparent;
+  color: inherit;
+  font-family: var(--mono);
+  font-size: 15px;
+  outline: none;
+}
+.val-in:hover { border-bottom-color: var(--border); }
+.val-in:focus { border-bottom-color: var(--accent); }
+.val:focus-within { border-color: var(--accent); }
+.val.bad { border-color: var(--red); }
+.val.bad .val-in { border-bottom-color: var(--red); }
+#val-msg.bad { color: var(--red); }
+
 .abcd-grid {
   display: grid;
   grid-template-columns: 1fr 330px;
