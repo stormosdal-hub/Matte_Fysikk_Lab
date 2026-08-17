@@ -40,9 +40,9 @@
     "semantic_hash": "a4a0ff39b48100cd1c97e745311225c6"
   },
   "js/parser.js": {
-    "mtime": 1782647373.7119527,
-    "ast_hash": "38f1ba4d94d202f706389840ab20cefd",
-    "semantic_hash": "38f1ba4d94d202f706389840ab20cefd"
+    "mtime": 1786732566.6094759,
+    "ast_hash": "ecaaed87ade20c7234e8cd532e6aeb15",
+    "semantic_hash": ""
   },
   "js/phys_energy.js": {
     "mtime": 1782369649.617681,
@@ -80,8 +80,8 @@
     "semantic_hash": "833d795fe8b15507c3f8a2bf5459d647"
   },
   "js/trig.js": {
-    "mtime": 1786730829.604526,
-    "ast_hash": "6384aeb2af0cf88b100ae7ecb33229e5",
+    "mtime": 1786733991.2208643,
+    "ast_hash": "289ac2738470d2fd0e1caa2038743042",
     "semantic_hash": ""
   },
   "package.json": {
@@ -100,8 +100,13 @@
     "semantic_hash": "b564ee2791289918eb874e36b4a40484"
   },
   "index.html": {
-    "mtime": 1786730489.5259411,
-    "ast_hash": "bdf56e05f1868cc0ddf727a8e9d0a507",
+    "mtime": 1786733953.723844,
+    "ast_hash": "6edd295dab080d3a9b51cf914f474396",
+    "semantic_hash": ""
+  },
+  "js/mathrender.js": {
+    "mtime": 1786732917.8059208,
+    "ast_hash": "89551b95aba0fd387e14e81d8811aa49",
     "semantic_hash": ""
   }
 }

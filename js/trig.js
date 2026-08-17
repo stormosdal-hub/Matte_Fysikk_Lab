@@ -15,6 +15,7 @@ const TrigTab = (() => {
     speed: 0.8,           // rad/s
     show: { sin: true, cos: true, tan: true },
     grid: true,
+    pane: "wave",         // "wave" | "calc"
     A: 1, B: 1, C: 0, D: 0
   };
 
@@ -247,6 +248,7 @@ const TrigTab = (() => {
   /* ---------- bølgepanelet ---------- */
 
   function drawWave() {
+    if (st.pane !== "wave") return;   // fanen er gjemt, ingen vits i å tegne
     const { w, h } = fitCanvas(wave);
     const ctx = wave.getContext("2d");
     const L = 44, Rm = 14, T = 10, B = 26;
@@ -487,90 +489,155 @@ const TrigTab = (() => {
     evalCalc();
   }
 
-  /* ---------- kalkulatoren ---------- */
+  /* ---------- scientific kalkulator ---------- */
 
-  let calcLines = [];   // [{src, els:{input,res}}]
+  /* Én utregning per linje i tekstfeltet. Hver linje vises i tre trinn:
+     uttrykket med navn, det samme med tallene satt inn, og svaret. */
+
+  const DEFAULT_CALC = [
+    "sin(θ)^2 + cos(θ)^2",
+    "sin(2θ) = 2sin(θ)cos(θ)",
+    "hyp = 5",
+    "mot = hyp*sin(θ)",
+    "hos = hyp*cos(θ)",
+    "sqrt(mot^2 + hos^2)"
+  ].join("\n");
+
+  // navn kalkulatoren kjenner fra før, slik at "hyp*sin(θ)" ikke blir h*y*p*...
+  const BASE_VARS = ["θ", "theta", "rad", "deg", "x", "y"];
+
   let calcTimer = 0;
 
-  function addCalcLine(src) {
-    calcLines.push({ src: src || "", els: null });
-    renderCalcRows();
+  function calcScope() {
+    return {
+      "θ": st.theta,
+      theta: st.theta,
+      rad: st.theta,
+      deg: st.theta * 180 / Math.PI,
+      x: Math.cos(st.theta),
+      y: Math.sin(st.theta)
+    };
   }
 
-  function renderCalcRows() {
-    const wrap = $("trig-calc-rows");
-    wrap.innerHTML = "";
-    for (const line of calcLines) {
-      const row = document.createElement("div");
-      row.className = "calc-row";
-
-      const input = document.createElement("input");
-      input.className = "calc-input";
-      input.value = line.src;
-      input.placeholder = "f.eks. sin(2theta)  ·  hyp = 5  ·  mot = hyp*sin(theta)";
-      input.spellcheck = false;
-      input.addEventListener("input", () => {
-        line.src = input.value;
-        clearTimeout(calcTimer);
-        calcTimer = setTimeout(evalCalc, 160);
-      });
-
-      const res = document.createElement("span");
-      res.className = "calc-res";
-
-      const del = document.createElement("button");
-      del.className = "mini";
-      del.textContent = "✕";
-      del.title = "Fjern linjen";
-      del.onclick = () => {
-        calcLines = calcLines.filter(l => l !== line);
-        renderCalcRows();
-      };
-
-      row.append(input, res, del);
-      wrap.appendChild(row);
-      line.els = { input, res };
+  function mathRow(...parts) {
+    const row = document.createElement("div");
+    row.className = "math-row";
+    for (const p of parts) {
+      if (p === "") continue;
+      row.append(typeof p === "string" ? document.createTextNode(p) : p);
     }
+    return row;
+  }
+
+  /* Uttrykket, så det samme med tallene satt inn. Mellomtrinnet droppes når
+     det ikke viser noe nytt — uttrykk uten variabler ser like ut begge veier. */
+  function addSteps(box, prefix, symbols, values) {
+    box.append(mathRow(prefix, symbols));
+    if (values.textContent !== symbols.textContent) box.append(mathRow("=", values));
+  }
+
+  function evalCalc() {
+    const out = $("trig-calc-out");
+    if (!out || st.pane !== "calc") return;
+
+    const scope = calcScope();
+    const known = BASE_VARS.slice();
+    out.replaceChildren();
+
+    for (const raw of $("trig-calc-expr").value.split("\n")) {
+      const src = raw.trim();
+      if (!src) continue;
+
+      const box = document.createElement("div");
+      box.className = "calc-item";
+
+      try {
+        const eq = src.indexOf("=");
+        const lhsName = eq >= 0 ? src.slice(0, eq).trim().toLowerCase() : "";
+
+        if (eq >= 0 && /^[a-zπθ_][a-z0-9πθ_]*$/.test(lhsName) && !MathParser.isReserved(lhsName)) {
+          // definisjon: navn = uttrykk
+          const p = MathParser.parse(src.slice(eq + 1), known);
+          const val = p.fn(scope);
+          scope[lhsName] = val;
+          if (known.indexOf(lhsName) < 0) known.push(lhsName);
+
+          addSteps(box, lhsName + " =",
+            MathRender.symbols(p.ast, scope),
+            MathRender.values(p.ast, scope));
+          box.append(mathRow("=", formatNum(val, 6)));
+
+        } else if (eq >= 0) {
+          // likning: er de to sidene like?
+          const l = MathParser.parse(src.slice(0, eq), known);
+          const r = MathParser.parse(src.slice(eq + 1), known);
+          const lv = l.fn(scope), rv = r.fn(scope);
+          const same = Math.abs(lv - rv) <= 1e-9 * Math.max(1, Math.abs(lv), Math.abs(rv));
+
+          box.append(mathRow(MathRender.symbols(l.ast, scope), "=", MathRender.symbols(r.ast, scope)));
+          box.append(mathRow(MathRender.values(l.ast, scope), "=", MathRender.values(r.ast, scope)));
+
+          const verdict = mathRow(formatNum(lv, 6), "=", formatNum(rv, 6), same ? "✓" : "✗");
+          verdict.classList.add(same ? "good" : "bad");
+          box.append(verdict);
+
+        } else {
+          const p = MathParser.parse(src, known);
+          addSteps(box, "",
+            MathRender.symbols(p.ast, scope),
+            MathRender.values(p.ast, scope));
+          box.append(mathRow("=", formatNum(p.fn(scope), 6)));
+        }
+      } catch (e) {
+        box.replaceChildren(mathRow(src));
+        const err = mathRow(e.message);
+        err.classList.add("err");
+        box.append(err);
+      }
+
+      out.appendChild(box);
+    }
+  }
+
+  /* Høyre kort veksler mellom bølgene og kalkulatoren, slik at enhetssirkelen
+     blir stående ved siden av i stedet for å måtte scrolles bort. */
+  function setPane(name) {
+    st.pane = name === "calc" ? "calc" : "wave";
+    for (const [pane, btn] of [["wave", "tab-wave"], ["calc", "tab-calc"]]) {
+      const on = pane === st.pane;
+      $("pane-" + pane).classList.toggle("on", on);
+      $(btn).classList.toggle("on", on);
+      $(btn).setAttribute("aria-selected", String(on));
+    }
+    // canvaset måler seg selv, så det må tegnes på nytt når det blir synlig
+    if (st.pane === "wave") drawWave(); else evalCalc();
+  }
+
+  function insertInExpr(text) {
+    const ta = $("trig-calc-expr");
+    const a = ta.selectionStart, b = ta.selectionEnd;
+    ta.value = ta.value.slice(0, a) + text + ta.value.slice(b);
+    ta.focus();
+    ta.selectionStart = ta.selectionEnd = a + text.length;
     evalCalc();
   }
 
-  /* Evaluerer alle linjene med gjeldende θ. Linjer på formen "navn = uttrykk"
-     definerer variabler; "uttrykk = uttrykk" sammenligner venstre og høyre side. */
-  function evalCalc() {
-    if (!calcLines.length) return;
-    const scope = { "θ": st.theta, theta: st.theta };
-    const known = ["θ", "theta"];
-    for (const line of calcLines) {
-      if (!line.els) continue;
-      const res = line.els.res;
-      res.className = "calc-res";
-      const src = line.src.trim();
-      if (!src) { res.textContent = ""; continue; }
-      try {
-        const eq = src.indexOf("=");
-        if (eq >= 0) {
-          const lhsName = src.slice(0, eq).trim().toLowerCase();
-          const rhs = src.slice(eq + 1);
-          if (/^[a-zπθ_][a-z0-9πθ_]*$/.test(lhsName) && !MathParser.isReserved(lhsName)) {
-            const val = MathParser.parse(rhs, known).fn(scope);
-            scope[lhsName] = val;
-            if (known.indexOf(lhsName) < 0) known.push(lhsName);
-            res.textContent = lhsName + " = " + formatNum(val, 6);
-          } else {
-            const l = MathParser.parse(src.slice(0, eq), known).fn(scope);
-            const r = MathParser.parse(rhs, known).fn(scope);
-            const same = Math.abs(l - r) <= 1e-9 * Math.max(1, Math.abs(l), Math.abs(r));
-            res.textContent = "VS: " + formatNum(l, 6) + "  HS: " + formatNum(r, 6) + (same ? "  ✓" : "  ✗");
-            res.classList.add(same ? "good" : "bad");
-          }
-        } else {
-          res.textContent = "= " + formatNum(MathParser.parse(src, known).fn(scope), 6);
-        }
-      } catch (e) {
-        res.textContent = e.message;
-        res.classList.add("err");
-      }
+  function initCalc() {
+    $("trig-calc-expr").value = DEFAULT_CALC;
+
+    $("trig-calc-expr").addEventListener("input", () => {
+      clearTimeout(calcTimer);
+      calcTimer = setTimeout(evalCalc, 160);
+    });
+
+    $("tab-wave").addEventListener("click", () => setPane("wave"));
+    $("tab-calc").addEventListener("click", () => setPane("calc"));
+
+    for (const btn of $("trig-insert-grid").querySelectorAll("[data-insert]")) {
+      btn.addEventListener("click", () => insertInExpr(btn.dataset.insert));
     }
+
+    setPane(st.pane);
   }
 
   /* ---------- animasjon ---------- */
@@ -697,16 +764,7 @@ const TrigTab = (() => {
 
     initValueInputs();
 
-    $("trig-calc-add").onclick = () => addCalcLine("");
-    calcLines = [
-      "sin(θ)^2 + cos(θ)^2",
-      "sin(2θ) = 2sin(θ)cos(θ)",
-      "hyp = 5",
-      "mot = hyp*sin(θ)",
-      "hos = hyp*cos(θ)",
-      "sqrt(mot^2 + hos^2)"
-    ].map(src => ({ src, els: null }));
-    renderCalcRows();
+    initCalc();
   }
 
   function show() {
@@ -732,9 +790,10 @@ const TrigTab = (() => {
     return {
       theta: st.theta,
       unit: st.unit,
-      inputs: captureInputs(["snap-check", "grid-check", "anim-speed", "show-sin", "show-cos", "show-tan",
-        "sl-a", "sl-b", "sl-c", "sl-d"]),
-      calcLines: calcLines.map(l => l.src)
+      pane: st.pane,
+      inputs: captureInputs(["snap-check", "grid-check", "anim-speed",
+        "show-sin", "show-cos", "show-tan", "sl-a", "sl-b", "sl-c", "sl-d"]),
+      calcExpr: $("trig-calc-expr").value
     };
   }
 
@@ -748,10 +807,10 @@ const TrigTab = (() => {
       st.theta = ((s.theta % TAU) + TAU) % TAU;
       $("theta-slider").value = st.theta * 180 / Math.PI;
     }
-    if (Array.isArray(s.calcLines)) {
-      calcLines = s.calcLines.map(src => ({ src: String(src), els: null }));
-      renderCalcRows();
-    }
+    // eldre oppsett lagret én linje per rad
+    if (typeof s.calcExpr === "string") $("trig-calc-expr").value = s.calcExpr;
+    else if (Array.isArray(s.calcLines)) $("trig-calc-expr").value = s.calcLines.join("\n");
+    setPane(s.pane === "calc" ? "calc" : "wave");
     redrawTrig();
     abcdView.requestRender();
   }

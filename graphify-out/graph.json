@@ -295,6 +295,26 @@
       "norm_label": "switchtab()"
     },
     {
+      "label": "mathrender.js",
+      "file_type": "code",
+      "source_file": "js/mathrender.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "js_mathrender",
+      "community": 10,
+      "norm_label": "mathrender.js"
+    },
+    {
+      "label": "MathRender",
+      "file_type": "code",
+      "source_file": "js/mathrender.js",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "js_mathrender_mathrender",
+      "community": 10,
+      "norm_label": "mathrender"
+    },
+    {
       "label": "parser.js",
       "file_type": "code",
       "source_file": "js/parser.js",
@@ -521,7 +541,7 @@
       "source_location": "L166",
       "_origin": "ast",
       "id": "js_plotter_graphview_resize",
-      "community": 0,
+      "community": 2,
       "norm_label": ".resize()"
     },
     {
@@ -1336,6 +1356,16 @@
       "confidence_score": 1.0,
       "source": "js_main_switchtab",
       "target": "js_main_closemenu"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "js/mathrender.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "js_mathrender",
+      "target": "js_mathrender_mathrender",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -2274,5 +2304,5 @@
       "source_file": "index.html"
     }
   ],
-  "built_at_commit": "d7bb56ea7ab61de1f971b5490e3f9bee70d282f2"
+  "built_at_commit": "beeee0d93a807189fe087679b11f2ab25c7267fc"
 }
