@@ -176,6 +176,7 @@ canvas { touch-action: none; }
 
   /* ------ Kalkulatoren: mindre tekst, lavere resultatboks ------ */
   .calc-out { font-size: 12.5px; max-height: 260px; }
+  .set-row { grid-template-columns: 1fr 110px 30px; }
   .card-tabs .btn-seg { font-size: 12px; padding: 8px 6px; }
 
   /* ------ Hjelp-seksjonen: litt større linjehøyde ------ */

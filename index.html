@@ -113,7 +113,10 @@
   <div class="trig-grid">
 
     <div class="card" id="circle-card">
-      <h2>Enhetssirkelen</h2>
+      <div class="card-head">
+        <h2>Enhetssirkelen</h2>
+        <button class="mini" id="set-open" title="Innstillinger for trigonometri-fanen">&#9881; Innstillinger</button>
+      </div>
       <canvas id="circle-canvas"></canvas>
       <div class="slider-row">
         <span class="sl-name">Vinkel &theta;</span><output id="theta-label">45&deg;</output>
@@ -201,6 +204,46 @@
         <code>sqrt(2)/2</code>. Har verdien flere l&oslash;sninger, velges vinkelen n&aelig;rmest den du st&aring;r p&aring;.
       </div>
     </div>
+
+    <dialog id="trig-settings" class="modal">
+      <div class="modal-head">
+        <h2>Innstillinger &mdash; trigonometri</h2>
+        <button class="mini" id="set-close" title="Lukk" aria-label="Lukk">&#10005;</button>
+      </div>
+
+      <div class="modal-body">
+        <h3>Tall og verdier</h3>
+
+        <label class="set-row" for="set-decimals">
+          <span>Desimaler</span>
+          <input type="range" id="set-decimals" min="0" max="10" step="1" value="5">
+          <output id="out-decimals">5</output>
+        </label>
+        <p class="set-note">Gjelder verdikortet, utregningene i kalkulatoren og tallene p&aring; enhetssirkelen.</p>
+
+        <label class="set-check" for="set-pad">
+          <input type="checkbox" id="set-pad">
+          <span>Behold nuller p&aring; slutten <em>&mdash; 45.000 i stedet for 45</em></span>
+        </label>
+
+        <label class="set-check" for="set-radfrac">
+          <input type="checkbox" id="set-radfrac" checked>
+          <span>Radianer som br&oslash;k av &pi; <em>&mdash; &pi;/6 i stedet for 0.5236</em></span>
+        </label>
+
+        <h3>Enhetssirkelen</h3>
+
+        <label class="set-check" for="set-coords">
+          <input type="checkbox" id="set-coords" checked>
+          <span>Vis koordinater ved punktet <em>&mdash; (0.866, 0.5)</em></span>
+        </label>
+      </div>
+
+      <div class="modal-foot">
+        <button class="btn" id="set-reset">Tilbakestill</button>
+        <button class="btn primary" id="set-done">Ferdig</button>
+      </div>
+    </dialog>
 
     <div class="card full" id="abcd-card">
       <h2>Utforsk y = A&middot;sin(Bx + C) + D</h2>

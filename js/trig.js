@@ -16,6 +16,10 @@ const TrigTab = (() => {
     show: { sin: true, cos: true, tan: true },
     grid: true,
     pane: "wave",         // "wave" | "calc"
+    decimals: 5,          // innstillinger (tannhjulet på kortet)
+    padZeros: false,
+    radFrac: true,
+    showCoords: true,
     A: 1, B: 1, C: 0, D: 0
   };
 
@@ -24,22 +28,34 @@ const TrigTab = (() => {
 
   function gcd(a, b) { return b ? gcd(b, a % b) : a; }
 
+  /* Tall på denne fanen skrives med valgt antall desimaler. Den globale
+     formatNum() teller gjeldende siffer og deles med de andre fanene, så
+     innstillingen holdes lokal her. */
+  function fmt(v) {
+    if (!isFinite(v)) return v > 0 ? "∞" : v < 0 ? "−∞" : "–";
+    if (Math.abs(v) >= 1e9) return v.toExponential(Math.min(st.decimals, 6));
+    let s = v.toFixed(st.decimals);
+    if (!st.padZeros && s.indexOf(".") >= 0) s = s.replace(/0+$/, "").replace(/\.$/, "");
+    if (/^-0(\.0*)?$/.test(s)) s = s.slice(1);   // unngå "-0"
+    return s;
+  }
+
   // Pen radian-tekst: multipler av π/12 vises som brøk, ellers desimal
   function radText(theta) {
     const k = Math.round(theta / (Math.PI / 12));
-    if (Math.abs(theta - k * Math.PI / 12) < 1e-6) {
+    if (st.radFrac && Math.abs(theta - k * Math.PI / 12) < 1e-6) {
       if (k === 0) return "0";
       const g = gcd(k, 12), n = k / g, d = 12 / g;
       const num = n === 1 ? "π" : n + "π";
       return d === 1 ? num : num + "/" + d;
     }
-    return formatNum(theta, 4);
+    return fmt(theta);
   }
 
   function angleLabel(thetaRad) {
     const deg = thetaRad * 180 / Math.PI;
     return st.unit === "deg"
-      ? formatNum(deg, 4) + "°"
+      ? fmt(deg) + "°"
       : radText(thetaRad);
   }
 
@@ -234,15 +250,20 @@ const TrigTab = (() => {
     ctx.stroke();
 
     // koordinat-tekst ved punktet
+    if (!st.showCoords) return;
     ctx.fillStyle = "#e6e9ef";
     ctx.font = "12.5px Consolas, monospace";
-    ctx.textAlign = cos >= 0 ? "left" : "right";
+    const label = "(" + fmt(cos) + ", " + fmt(sin) + ")";
+    const right = cos >= 0;
+    ctx.textAlign = right ? "left" : "right";
     ctx.textBaseline = sin >= 0 ? "bottom" : "top";
-    ctx.fillText(
-      "(" + formatNum(cos, 3) + ", " + formatNum(sin, 3) + ")",
-      px + (cos >= 0 ? 12 : -12),
-      py + (sin >= 0 ? -10 : 10)
-    );
+    // mange desimaler gir lang tekst — hold den innenfor kanten
+    const tw = ctx.measureText(label).width;
+    let tx = px + (right ? 12 : -12);
+    tx = right ? Math.min(tx, w - 6 - tw) : Math.max(tx, 6 + tw);
+    let ty = py + (sin >= 0 ? -10 : 10);
+    ty = Math.min(Math.max(ty, sin >= 0 ? 16 : 6), sin >= 0 ? h - 6 : h - 16);
+    ctx.fillText(label, tx, ty);
   }
 
   /* ---------- bølgepanelet ---------- */
@@ -347,16 +368,16 @@ const TrigTab = (() => {
   function updateValues() {
     const th = st.theta;
     const s = Math.sin(th), c = Math.cos(th), t = Math.tan(th);
-    const inv = v => Math.abs(v) < 1e-9 ? "–" : formatNum(1 / v, 5);
-    showVal("v-deg", formatNum(th * 180 / Math.PI, 5) + "°");
+    const inv = v => Math.abs(v) < 1e-9 ? "–" : fmt(1 / v);
+    showVal("v-deg", fmt(th * 180 / Math.PI) + "°");
     showVal("v-rad", radText(th));
-    showVal("v-sin", formatNum(s, 5));
-    showVal("v-cos", formatNum(c, 5));
-    showVal("v-tan", Math.abs(t) > 1e7 ? "±∞" : formatNum(t, 5));
+    showVal("v-sin", fmt(s));
+    showVal("v-cos", fmt(c));
+    showVal("v-tan", Math.abs(t) > 1e7 ? "±∞" : fmt(t));
     showVal("v-csc", inv(s));
     showVal("v-sec", inv(c));
-    showVal("v-cot", Math.abs(t) < 1e-9 ? "–" : (Math.abs(t) > 1e7 ? "0" : formatNum(1 / t, 5)));
-    $("theta-label").textContent = formatNum(th * 180 / Math.PI, 4) + "° = " + radText(th);
+    showVal("v-cot", Math.abs(t) < 1e-9 ? "–" : (Math.abs(t) > 1e7 ? "0" : fmt(1 / t)));
+    $("theta-label").textContent = fmt(th * 180 / Math.PI) + "° = " + radText(th);
   }
 
   /* ---------- verdier man kan skrive i ---------- */
@@ -563,9 +584,9 @@ const TrigTab = (() => {
           if (known.indexOf(lhsName) < 0) known.push(lhsName);
 
           addSteps(box, lhsName + " =",
-            MathRender.symbols(p.ast, scope),
-            MathRender.values(p.ast, scope));
-          box.append(mathRow("=", formatNum(val, 6)));
+            MathRender.symbols(p.ast, scope, fmt),
+            MathRender.values(p.ast, scope, fmt));
+          box.append(mathRow("=", fmt(val)));
 
         } else if (eq >= 0) {
           // likning: er de to sidene like?
@@ -574,19 +595,19 @@ const TrigTab = (() => {
           const lv = l.fn(scope), rv = r.fn(scope);
           const same = Math.abs(lv - rv) <= 1e-9 * Math.max(1, Math.abs(lv), Math.abs(rv));
 
-          box.append(mathRow(MathRender.symbols(l.ast, scope), "=", MathRender.symbols(r.ast, scope)));
-          box.append(mathRow(MathRender.values(l.ast, scope), "=", MathRender.values(r.ast, scope)));
+          box.append(mathRow(MathRender.symbols(l.ast, scope, fmt), "=", MathRender.symbols(r.ast, scope, fmt)));
+          box.append(mathRow(MathRender.values(l.ast, scope, fmt), "=", MathRender.values(r.ast, scope, fmt)));
 
-          const verdict = mathRow(formatNum(lv, 6), "=", formatNum(rv, 6), same ? "✓" : "✗");
+          const verdict = mathRow(fmt(lv), "=", fmt(rv), same ? "✓" : "✗");
           verdict.classList.add(same ? "good" : "bad");
           box.append(verdict);
 
         } else {
           const p = MathParser.parse(src, known);
           addSteps(box, "",
-            MathRender.symbols(p.ast, scope),
-            MathRender.values(p.ast, scope));
-          box.append(mathRow("=", formatNum(p.fn(scope), 6)));
+            MathRender.symbols(p.ast, scope, fmt),
+            MathRender.values(p.ast, scope, fmt));
+          box.append(mathRow("=", fmt(p.fn(scope))));
         }
       } catch (e) {
         box.replaceChildren(mathRow(src));
@@ -640,6 +661,62 @@ const TrigTab = (() => {
     setPane(st.pane);
   }
 
+  /* ---------- innstillinger ---------- */
+
+  const SETTINGS = [
+    ["set-decimals", "decimals", "input", el => parseInt(el.value, 10)],
+    ["set-pad", "padZeros", "change", el => el.checked],
+    ["set-radfrac", "radFrac", "change", el => el.checked],
+    ["set-coords", "showCoords", "change", el => el.checked]
+  ];
+
+  const DEFAULT_SETTINGS = { decimals: 5, padZeros: false, radFrac: true, showCoords: true };
+
+  // skjemaet -> st, og tegn fanen på nytt med de nye valgene
+  function readSettings() {
+    for (const [id, key, , get] of SETTINGS) st[key] = get($(id));
+    $("out-decimals").textContent = st.decimals;
+    redrawTrig();
+  }
+
+  // st -> skjemaet (ved oppstart, tilbakestilling og innlasting)
+  function writeSettings() {
+    $("set-decimals").value = st.decimals;
+    $("set-pad").checked = st.padZeros;
+    $("set-radfrac").checked = st.radFrac;
+    $("set-coords").checked = st.showCoords;
+    $("out-decimals").textContent = st.decimals;
+  }
+
+  function initSettings() {
+    const dlg = $("trig-settings");
+
+    for (const [id, , evt] of SETTINGS) {
+      $(id).addEventListener(evt, readSettings);
+    }
+
+    $("set-open").addEventListener("click", () => dlg.showModal());
+    $("set-close").addEventListener("click", () => dlg.close());
+    $("set-done").addEventListener("click", () => dlg.close());
+
+    $("set-reset").addEventListener("click", () => {
+      Object.assign(st, DEFAULT_SETTINGS);
+      writeSettings();
+      redrawTrig();
+    });
+
+    // klikk på bakgrunnen utenfor ruten lukker også
+    dlg.addEventListener("click", e => {
+      if (e.target !== dlg) return;               // treff på selve <dialog> = utenfor innholdet
+      const r = dlg.getBoundingClientRect();
+      const inside = e.clientX >= r.left && e.clientX <= r.right &&
+                     e.clientY >= r.top && e.clientY <= r.bottom;
+      if (!inside) dlg.close();
+    });
+
+    writeSettings();
+  }
+
   /* ---------- animasjon ---------- */
 
   function loop(t) {
@@ -672,13 +749,13 @@ const TrigTab = (() => {
 
   function updateAbcdReadout() {
     const { A, B, C, D } = st;
-    const per = B !== 0 ? formatNum(TAU / Math.abs(B), 4) : "∞";
-    const shift = B !== 0 ? formatNum(-C / B, 4) : "–";
+    const per = B !== 0 ? fmt(TAU / Math.abs(B)) : "∞";
+    const shift = B !== 0 ? fmt(-C / B) : "–";
     $("abcd-readout").innerHTML =
-      "Amplitude: <b>" + formatNum(Math.abs(A), 4) + "</b> &nbsp;·&nbsp; " +
+      "Amplitude: <b>" + fmt(Math.abs(A)) + "</b> &nbsp;·&nbsp; " +
       "Periode: <b>" + per + "</b> &nbsp;·&nbsp; " +
       "Faseforskyvning: <b>" + shift + "</b> &nbsp;·&nbsp; " +
-      "Likevektslinje: <b>y = " + formatNum(D, 4) + "</b>";
+      "Likevektslinje: <b>y = " + fmt(D) + "</b>";
   }
 
   /* ---------- init ---------- */
@@ -751,7 +828,7 @@ const TrigTab = (() => {
     const bindAbcd = (id, out, key) => {
       $(id).addEventListener("input", e => {
         st[key] = parseFloat(e.target.value);
-        $(out).textContent = formatNum(st[key], 3);
+        $(out).textContent = fmt(st[key]);
         updateAbcdReadout();
         abcdView.requestRender();
       });
@@ -763,6 +840,7 @@ const TrigTab = (() => {
     updateAbcdReadout();
 
     initValueInputs();
+    initSettings();
 
     initCalc();
   }
@@ -792,7 +870,8 @@ const TrigTab = (() => {
       unit: st.unit,
       pane: st.pane,
       inputs: captureInputs(["snap-check", "grid-check", "anim-speed",
-        "show-sin", "show-cos", "show-tan", "sl-a", "sl-b", "sl-c", "sl-d"]),
+        "show-sin", "show-cos", "show-tan", "sl-a", "sl-b", "sl-c", "sl-d",
+        "set-decimals", "set-pad", "set-radfrac", "set-coords"]),
       calcExpr: $("trig-calc-expr").value
     };
   }
