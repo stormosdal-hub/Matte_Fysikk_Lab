@@ -1,16 +1,16 @@
-# Graph Report - Matte_Fysikk_Lab  (2026-08-14)
+# Graph Report - Matte_Fysikk_Lab  (2026-08-20)
 
 ## Corpus Check
-- 20 files · ~28,030 words
+- 21 files · ~30,388 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 98 nodes · 117 edges · 12 communities (8 shown, 4 thin omitted)
-- Extraction: 91% EXTRACTED · 9% INFERRED · 0% AMBIGUOUS · INFERRED: 10 edges (avg confidence: 0.78)
+- 100 nodes · 118 edges · 13 communities (8 shown, 5 thin omitted)
+- Extraction: 92% EXTRACTED · 8% INFERRED · 0% AMBIGUOUS · INFERRED: 10 edges (avg confidence: 0.78)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `beeee0d9`
+- Built from commit: `f29fa8da`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -26,6 +26,7 @@
 - [[_COMMUNITY_MCP graphify-server|MCP graphify-server]]
 - [[_COMMUNITY_MCP-konfigurasjon|MCP-konfigurasjon]]
 - [[_COMMUNITY_Community 10|Community 10]]
+- [[_COMMUNITY_Community 11|Community 11]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `GraphView` - 19 edges
@@ -58,7 +59,7 @@
 - **MatteFysikkLab main UI tabs** — index_calculus_tab, index_trig_tab, index_linalg_tab, index_physics_tab [INFERRED 0.85]
 - **Fysikk subtabs sequence** — index_physics_metode, index_physics_kinematikk, index_physics_dynamikk, index_physics_energi, index_physics_termo [INFERRED 0.85]
 
-## Communities (12 total, 4 thin omitted)
+## Communities (13 total, 5 thin omitted)
 
 ### Community 1 - "App-skall og fanenavigasjon"
 Cohesion: 0.22
@@ -89,19 +90,19 @@ Cohesion: 0.40
 Nodes (4): __dirname, server, transport, VAULT
 
 ## Knowledge Gaps
-- **28 isolated node(s):** `node`, `name`, `version`, `type`, `main` (+23 more)
+- **29 isolated node(s):** `node`, `name`, `version`, `type`, `main` (+24 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **5 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `PhysicsTab` connect `Fysikk-fanen og under-faner` to `App-skall og fanenavigasjon`?**
-  _High betweenness centrality (0.060) - this node is a cross-community bridge._
+  _High betweenness centrality (0.058) - this node is a cross-community bridge._
 - **Why does `GraphView` connect `GraphView graf-motor` to `Tegne- og eksportverktøy`?**
-  _High betweenness centrality (0.052) - this node is a cross-community bridge._
+  _High betweenness centrality (0.050) - this node is a cross-community bridge._
 - **Why does `index.html (MatteFysikkLab app page)` connect `App-skall og fanenavigasjon` to `Fysikk-fanen og under-faner`?**
-  _High betweenness centrality (0.041) - this node is a cross-community bridge._
+  _High betweenness centrality (0.039) - this node is a cross-community bridge._
 - **Are the 6 inferred relationships involving `index.html (MatteFysikkLab app page)` (e.g. with `CalculusTab` and `LinAlgTab`) actually correct?**
   _`index.html (MatteFysikkLab app page)` has 6 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 2 inferred relationships involving `PhysicsTab` (e.g. with `index.html (MatteFysikkLab app page)` and `Fysikk tab (physics with subtabs)`) actually correct?**
@@ -109,4 +110,4 @@ _Questions this graph is uniquely positioned to answer:_
 - **Are the 2 inferred relationships involving `CalculusTab` (e.g. with `Kalkulus tab (plot/analyze functions)` and `index.html (MatteFysikkLab app page)`) actually correct?**
   _`CalculusTab` has 2 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `node`, `name`, `version` to the rest of the system?**
-  _28 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _29 weakly-connected nodes found - possible documentation gaps or missing edges._

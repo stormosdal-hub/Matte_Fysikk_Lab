@@ -80,6 +80,9 @@
   LinAlgTab.init();
   PhysicsTab.init();
 
+  // gjør avlesningene ved glidebryterne redigerbare (fysikk-fanen)
+  ValueField.init();
+
   // Nedlastingsknapp på kort-grafene med fast høyde (pakkes inn)
   attachCanvasDownload(document.getElementById("circle-canvas"), "enhetssirkel");
   attachCanvasDownload(document.getElementById("abcd-canvas"), "sinusfunksjon");

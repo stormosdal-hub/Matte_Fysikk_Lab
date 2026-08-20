@@ -775,6 +775,26 @@
       "norm_label": "trigtab"
     },
     {
+      "label": "valuefield.js",
+      "file_type": "code",
+      "source_file": "js/valuefield.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "js_valuefield",
+      "community": 11,
+      "norm_label": "valuefield.js"
+    },
+    {
+      "label": "ValueField",
+      "file_type": "code",
+      "source_file": "js/valuefield.js",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "js_valuefield_valuefield",
+      "community": 11,
+      "norm_label": "valuefield"
+    },
+    {
       "label": "package.json",
       "file_type": "code",
       "source_file": "package.json",
@@ -1363,9 +1383,9 @@
       "source_file": "js/mathrender.js",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "js_mathrender",
-      "target": "js_mathrender_mathrender",
-      "confidence_score": 1.0
+      "target": "js_mathrender_mathrender"
     },
     {
       "relation": "contains",
@@ -2055,6 +2075,16 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "js/valuefield.js",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "js_valuefield",
+      "target": "js_valuefield_valuefield",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "package.json",
       "source_location": "L4",
       "weight": 1.0,
@@ -2304,5 +2334,5 @@
       "source_file": "index.html"
     }
   ],
-  "built_at_commit": "beeee0d93a807189fe087679b11f2ab25c7267fc"
+  "built_at_commit": "f29fa8dadafed09a2fb466e65edd8b8d97195874"
 }

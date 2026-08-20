@@ -61,10 +61,11 @@ canvas { touch-action: none; }
     height: auto;
   }
   .sim-col { min-height: 55vw; }
-  .sim-col.rows-track { grid-template-rows: 110px 1fr; }
+  .sim-col.rows-track { grid-template-rows: 110px minmax(0, 1fr); }
+  .sim-col.rows-main { grid-template-rows: minmax(0, 1fr) 130px; }
 
   .force-right {
-    grid-template-rows: 1fr 130px;
+    grid-template-rows: minmax(0, 1fr) 130px;
     min-height: 55vw;
     padding: 8px;
   }
@@ -162,6 +163,12 @@ canvas { touch-action: none; }
   .slider-row  { gap: 2px 5px; margin-bottom: 9px; }
   .sl-name     { font-size: 12px; }
   .group-title { font-size: 10px; }
+
+  /* ------ Redigerbar avlesning: større trykkflater ------ */
+  .val-step { width: 170px; gap: 4px; }
+  /* 16px hindrer at iOS zoomer inn når feltet får fokus */
+  .val-num  { font-size: 16px; padding: 3px; }
+  .step-btn { width: 30px; height: 30px; font-size: 11px; }
 
   /* ------ Kompakte matrise-inputs ------ */
   .num-s { width: 52px !important; }

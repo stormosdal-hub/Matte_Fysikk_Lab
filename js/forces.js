@@ -335,7 +335,7 @@ const ForcesTab = (() => {
     sl.addEventListener("input", () => {
       const v = parseFloat(sl.value);
       set(v);
-      out.textContent = fmt(v);
+      out.value = fmt(v);
     });
   }
 
@@ -360,8 +360,8 @@ const ForcesTab = (() => {
       P.mus = p.mus; P.muk = p.muk;
       $("f-mus").value = p.mus;
       $("f-muk").value = p.muk;
-      $("o-mus").textContent = p.mus.toFixed(2);
-      $("o-muk").textContent = p.muk.toFixed(2);
+      $("o-mus").value = p.mus.toFixed(2);
+      $("o-muk").value = p.muk.toFixed(2);
     });
 
     $("f-fld").addEventListener("change", e => P.showFLD = e.target.checked);

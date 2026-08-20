@@ -221,6 +221,51 @@ input[type="checkbox"] { accent-color: var(--accent); }
 .sl-name { font-size: 13px; }
 output { font-family: var(--mono); font-size: 12.5px; color: var(--accent); white-space: nowrap; }
 
+/* Redigerbar avlesning med pilknapper (se js/valuefield.js) */
+.val-step {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  width: 124px;
+}
+.val-num {
+  flex: 1;
+  min-width: 0;
+  padding: 2px 3px;
+  background: none;
+  border: none;
+  border-bottom: 1px dashed transparent;
+  border-radius: 0;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 12.5px;
+  text-align: right;
+  outline: none;
+}
+.val-num:hover { border-bottom-color: var(--border); }
+.val-num:focus { border-bottom-color: var(--accent); background: #10141c; }
+.val-num.bad { border-bottom-color: var(--red); color: var(--red); }
+.step-btn {
+  flex: none;
+  width: 19px;
+  height: 19px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1b2230;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+}
+.step-btn:hover { color: var(--accent); border-color: var(--accent); }
+.step-btn:active { background: var(--accent-dim); color: var(--accent); }
+
 /* Min/max-grenser for parameter-glidebrytere */
 .param-block { margin-bottom: 13px; }
 .param-block .slider-row { margin-bottom: 4px; }
@@ -318,6 +363,9 @@ output { font-family: var(--mono); font-size: 12.5px; color: var(--accent); whit
   height: 100%;
   display: block;
   touch-action: none;
+  /* uten disse arver canvas en minstehøyde fra sitt eget sideforhold og vokser */
+  min-width: 0;
+  min-height: 0;
 }
 #calc-canvas { cursor: crosshair; }
 
@@ -464,11 +512,12 @@ output { font-family: var(--mono); font-size: 12.5px; color: var(--accent); whit
 /* ===== Krefter ===== */
 .force-right {
   display: grid;
-  grid-template-rows: 1fr 170px;
+  grid-template-rows: minmax(0, 1fr) 170px;
   gap: 10px;
   padding: 10px;
   min-width: 0;
   min-height: 0;
+  overflow: hidden;
   background: var(--bg);
 }
 #force-canvas, #force-graph {
@@ -548,13 +597,18 @@ output { font-family: var(--mono); font-size: 12.5px; color: var(--accent); whit
   padding: 10px;
   min-width: 0;
   min-height: 0;
+  overflow: hidden;
   background: var(--bg);
 }
-.sim-col.rows-track { grid-template-rows: 130px 1fr; }
-.sim-col.rows-main { grid-template-rows: 1fr 180px; }
+/* minmax(0, 1fr): et blankt 1fr får minstestørrelse fra innholdet, og et canvas
+   melder inn bredde / sideforhold som minstehøyde. Da vokser raden ut av vinduet. */
+.sim-col.rows-track { grid-template-rows: 130px minmax(0, 1fr); }
+.sim-col.rows-main { grid-template-rows: minmax(0, 1fr) 180px; }
 .sim-col canvas {
   width: 100%;
   height: 100%;
+  min-width: 0;
+  min-height: 0;
   display: block;
   background: var(--bg2);
   border: 1px solid var(--border);

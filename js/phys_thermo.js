@@ -338,7 +338,7 @@ const PhysThermo = (() => {
     const bind = (id, outId, key, fmt, resets) => {
       $(id).addEventListener("input", () => {
         P[key] = parseFloat($(id).value);
-        $(outId).textContent = fmt(P[key]);
+        $(outId).value = fmt(P[key]);
         if (resets) resetHeat();
       });
     };
@@ -361,9 +361,9 @@ const PhysThermo = (() => {
       $(id).addEventListener("input", updateDu);
     for (const id of ["kl-S", "kl-alb", "kl-eps"]) {
       $(id).addEventListener("input", () => {
-        $("o-kl-S").textContent = $("kl-S").value + " W/m²";
-        $("o-kl-alb").textContent = (+$("kl-alb").value).toFixed(2);
-        $("o-kl-eps").textContent = (+$("kl-eps").value).toFixed(2);
+        $("o-kl-S").value = $("kl-S").value + " W/m²";
+        $("o-kl-alb").value = (+$("kl-alb").value).toFixed(2);
+        $("o-kl-eps").value = (+$("kl-eps").value).toFixed(2);
         drawKlima();
       });
     }

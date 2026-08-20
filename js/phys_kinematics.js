@@ -328,7 +328,7 @@ const PhysKinematics = (() => {
     const bind = (id, outId, key, fmt) => {
       $(id).addEventListener("input", () => {
         P[key] = parseFloat($(id).value);
-        $(outId).textContent = fmt(P[key]);
+        $(outId).value = fmt(P[key]);
         reset();
       });
     };

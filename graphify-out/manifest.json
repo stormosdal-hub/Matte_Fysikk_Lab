@@ -25,9 +25,9 @@
     "semantic_hash": "06bd14b4a7ae2c53e1127c0893488d4f"
   },
   "js/forces.js": {
-    "mtime": 1782369649.615681,
-    "ast_hash": "87fdc88894de060433b65c25517d11cf",
-    "semantic_hash": "87fdc88894de060433b65c25517d11cf"
+    "mtime": 1787241606.7917178,
+    "ast_hash": "2729ffbb06a308710e036f87d4ab1617",
+    "semantic_hash": ""
   },
   "js/linalg.js": {
     "mtime": 1782369649.615681,
@@ -35,9 +35,9 @@
     "semantic_hash": "b7ce612d5acabc8e5b41f0d449f95c1b"
   },
   "js/main.js": {
-    "mtime": 1782649279.9756007,
-    "ast_hash": "a4a0ff39b48100cd1c97e745311225c6",
-    "semantic_hash": "a4a0ff39b48100cd1c97e745311225c6"
+    "mtime": 1787241620.8117085,
+    "ast_hash": "1d245897caa7480b58f414ca53382003",
+    "semantic_hash": ""
   },
   "js/parser.js": {
     "mtime": 1786732566.6094759,
@@ -45,14 +45,14 @@
     "semantic_hash": ""
   },
   "js/phys_energy.js": {
-    "mtime": 1782369649.617681,
-    "ast_hash": "f360721956bd773b0b12f882860cdad4",
-    "semantic_hash": "f360721956bd773b0b12f882860cdad4"
+    "mtime": 1787241606.7917178,
+    "ast_hash": "85485e049ff59995131a807cc98caf3b",
+    "semantic_hash": ""
   },
   "js/phys_kinematics.js": {
-    "mtime": 1782369649.6196811,
-    "ast_hash": "3e9a7475114dccfde9f19e9dcddd0f91",
-    "semantic_hash": "3e9a7475114dccfde9f19e9dcddd0f91"
+    "mtime": 1787241606.7917178,
+    "ast_hash": "5a737d086fb94dd5fe0a783a9e4d538a",
+    "semantic_hash": ""
   },
   "js/phys_method.js": {
     "mtime": 1782369649.620681,
@@ -60,9 +60,9 @@
     "semantic_hash": "7490b0df9597b16b134f0978f721764b"
   },
   "js/phys_thermo.js": {
-    "mtime": 1782369649.620681,
-    "ast_hash": "34ab67d23aef41a0ea52725dda939371",
-    "semantic_hash": "34ab67d23aef41a0ea52725dda939371"
+    "mtime": 1787241606.7937179,
+    "ast_hash": "2feac5f74c8c26cbd97ccd67fed96f02",
+    "semantic_hash": ""
   },
   "js/physics.js": {
     "mtime": 1782369649.620681,
@@ -100,13 +100,18 @@
     "semantic_hash": "b564ee2791289918eb874e36b4a40484"
   },
   "index.html": {
-    "mtime": 1787164781.031063,
-    "ast_hash": "a32923550277be4931b20eb527ee201b",
+    "mtime": 1787241592.3607275,
+    "ast_hash": "becf9be87a3b5e02283118a306d93d87",
     "semantic_hash": ""
   },
   "js/mathrender.js": {
     "mtime": 1787164864.1629915,
     "ast_hash": "f9eeed5b18e37a8e5dfca03b4514a74f",
+    "semantic_hash": ""
+  },
+  "js/valuefield.js": {
+    "mtime": 1787241853.8555455,
+    "ast_hash": "a8226644e50f4e59a2618d401913ebc2",
     "semantic_hash": ""
   }
 }
